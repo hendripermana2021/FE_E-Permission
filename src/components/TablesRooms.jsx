@@ -1,9 +1,36 @@
 import SearchBox from "./materials/SearchBox";
 import { Button } from "react-bootstrap";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import ButtonGroup from "./materials/ButtonDropdown";
-function TableRooms() {
+
+const TableRooms = () => {
+  const [room, setRoom] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getRoom();
+  }, []);
+
+  const getRoom = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/v1/api/room");
+      setRoom(response.data.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching room data:", error);
+      setLoading(false);
+    }
+  };
+
+  // const getRoom = async () => {
+  //   const response = await axios.get("http://localhost:8000/v1/api/room");
+  //   console.log(response.data);
+  //   setRoom(response.data.data);
+  // };
+
   return (
-    <div className="col-lg-12 grid-margin stretch-card mt-4">
+    <div className=" container-fluid col-lg-12 grid-margin stretch-card mt-4">
       <div className="card">
         <div className="card-body">
           <h3 className="card-title">Tabel Kamar Santri/wati</h3>
@@ -19,24 +46,33 @@ function TableRooms() {
             <table className="table table-hover">
               <thead>
                 <tr>
+                  <th>Id Ruangan</th>
                   <th>Nama Ruangan</th>
                   <th>Nama Ustadz</th>
-                  <th>Jumlah Santri</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Jacob</td>
-                  <td>Photoshop</td>
-                  <td className="text-danger">
-                    {" "}
-                    28.76% <i className="ti-arrow-down" />
-                  </td>
-                  <td>
-                    <ButtonGroup />
-                  </td>
-                </tr>
+                {loading ? (
+                  <tr>
+                    <td colSpan="5">Loading...</td>
+                  </tr>
+                ) : room.length === 0 ? (
+                  <tr>
+                    <td colSpan="5">No rooms available</td>
+                  </tr>
+                ) : (
+                  room.map((rooms, index) => (
+                    <tr key={rooms.id}>
+                      <td>{index + 1}</td>
+                      <td>{rooms.nameroom}</td>
+                      <td>{rooms.id_ustadz}</td>
+                      <td>
+                        <ButtonGroup />
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -44,6 +80,6 @@ function TableRooms() {
       </div>
     </div>
   );
-}
+};
 
 export default TableRooms;

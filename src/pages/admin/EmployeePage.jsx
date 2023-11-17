@@ -13,10 +13,10 @@ function EmployeePage() {
         <NavbarAdminComponent />
         <div className="content-wrapper d-flex align-items-center auth px-0">
           <div className="row sidebaradmin">
-            <div className="col-md-3">
+            <div className="col-md-2">
               <SideBarComponents />
             </div>
-            <div className="col-md-9">
+            <div className="col-md-10">
               <TableEmployee />
             </div>
             <FooterComponents />

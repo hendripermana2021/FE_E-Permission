@@ -9,31 +9,10 @@ function SideBarComponents() {
           </a>
         </li>
         <li className="nav-item">
-          <a
-            className="nav-link"
-            data-bs-toggle="collapse"
-            href="#auth"
-            aria-expanded="false"
-            aria-controls="auth"
-          >
-            <i className="ti-home menu-icon" />
-            <span className="menu-title">Infrastructure</span>
-            <i className="menu-arrow" />
+          <a className="nav-link" href="/admin/roompage">
+            <i className="ti-agenda menu-icon" />
+            Student Room&apos;s
           </a>
-          <div className="collapse" id="auth">
-            <ul className="nav flex-column sub-menu">
-              <li className="nav-item">
-                <a className="nav-link" href="/admin/roompage">
-                  Student Room&apos;s
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/admin/classpage">
-                  Class Room&apos;s
-                </a>
-              </li>
-            </ul>
-          </div>
         </li>
         <li className="nav-item">
           <a className="nav-link" href="/admin/students">
@@ -56,7 +35,7 @@ function SideBarComponents() {
         <li className="nav-item">
           <a className="nav-link" href="/admin/cpi-calculated">
             <i className="ti-star menu-icon" />
-            <span className="menu-title">CPI Calculated</span>
+            <span className="menu-title">Calculated</span>
           </a>
         </li>
         <li className="nav-item">

@@ -4,6 +4,7 @@ import NavbarAdminComponent from "../../components/NavbarAdminComponent";
 import "../../dist/css/admindashboard.css";
 import "../../assets/vendors/ti-icons/css/themify-icons.css";
 import "../../assets/vendors/base/vendor.bundle.base.css";
+import TablePermission from "../../components/TablesPermission";
 
 function PermissionPage() {
   return (
@@ -12,10 +13,12 @@ function PermissionPage() {
         <NavbarAdminComponent />
         <div className="content-wrapper d-flex align-items-center auth px-0">
           <div className="row sidebaradmin">
-            <div className="col-md-3">
+            <div className="col-md-2">
               <SideBarComponents />
             </div>
-            <div className="col-md-9">SOMETHING IN HERE</div>
+            <div className="col-md-10">
+              <TablePermission />
+            </div>
             <FooterComponents />
           </div>
         </div>

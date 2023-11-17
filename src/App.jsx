@@ -12,7 +12,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import DashboardPage from "./pages/admin/DashboardPage";
 import RoomsPage from "./pages/admin/RoomsPage";
-import ClassRoomPages from "./pages/admin/ClassRoomPage";
 import StudentsPage from "./pages/admin/StudentsPage";
 import EmployeePage from "./pages/admin/EmployeePage";
 import PermissionPage from "./pages/admin/PermissionPage";
@@ -89,7 +88,6 @@ function App() {
         <Route path="/admin">
           <Route index element={<DashboardPage />} />
           <Route path="roompage" element={<RoomsPage />} />
-          <Route path="classpage" element={<ClassRoomPages />} />
           <Route path="students" element={<StudentsPage />} />
           <Route path="employes" element={<EmployeePage />} />
           <Route path="permission" element={<PermissionPage />} />

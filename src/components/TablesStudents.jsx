@@ -1,9 +1,23 @@
 import SearchBox from "./materials/SearchBox";
 import { Button } from "react-bootstrap";
 import ButtonGroup from "./materials/ButtonDropdown";
-function TableStudents() {
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const TableStudents = () => {
+  const [student, setStudent] = useState([]);
+
+  useEffect(() => {
+    getStudent();
+  }, []);
+
+  const getStudent = async () => {
+    const response = await axios.get("http://localhost:8000/v1/api/santri");
+    console.log(response.data);
+    setStudent(response.data.data);
+  };
   return (
-    <div className="col-lg-12 grid-margin stretch-card mt-4">
+    <div className="container-fluid col-lg-12 grid-margin stretch-card mt-4">
       <div className="card">
         <div className="card-body">
           <h4 className="card-title">TABEL DATA SANTRI/WATI</h4>
@@ -57,6 +71,5 @@ function TableStudents() {
       </div>
     </div>
   );
-}
-
+};
 export default TableStudents;
