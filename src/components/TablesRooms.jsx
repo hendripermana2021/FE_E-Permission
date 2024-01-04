@@ -1,8 +1,8 @@
 import SearchBox from "./materials/SearchBox";
-import { Button } from "react-bootstrap";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import ButtonGroup from "./materials/ButtonDropdown";
+import FormInputRooms from "./materials/InputFormROoms";
 
 const TableRooms = () => {
   const [room, setRoom] = useState([]);
@@ -23,12 +23,6 @@ const TableRooms = () => {
     }
   };
 
-  // const getRoom = async () => {
-  //   const response = await axios.get("http://localhost:8000/v1/api/room");
-  //   console.log(response.data);
-  //   setRoom(response.data.data);
-  // };
-
   return (
     <div className=" container-fluid col-lg-12 grid-margin stretch-card mt-4">
       <div className="card">
@@ -40,7 +34,7 @@ const TableRooms = () => {
                 <SearchBox />
               </div>
               <div className="col-md-6 d-flex justify-content-end">
-                <Button variant="outline-secondary">Tambah Kamar</Button>{" "}
+                <FormInputRooms />
               </div>
             </div>
             <table className="table table-hover">
@@ -66,7 +60,7 @@ const TableRooms = () => {
                     <tr key={rooms.id}>
                       <td>{index + 1}</td>
                       <td>{rooms.nameroom}</td>
-                      <td>{rooms.id_ustadz}</td>
+                      <td>{rooms.namaustadz.name_pegawai}</td>
                       <td>
                         <ButtonGroup />
                       </td>

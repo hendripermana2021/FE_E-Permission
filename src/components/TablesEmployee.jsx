@@ -1,8 +1,28 @@
 import SearchBox from "./materials/SearchBox";
 import ButtonGroup from "./materials/ButtonDropdown";
-import { Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import FormInputEmployee from "./materials/InputFormEmployee";
 
-function TableEmployee() {
+const TableEmployee = () => {
+  const [employee, setEmployee] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getEmployee();
+  }, []);
+
+  const getEmployee = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/v1/api/pegawai");
+      setEmployee(response.data.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching room data:", error);
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="col-lg-12 grid-margin stretch-card mt-4">
       <div className="card">
@@ -14,7 +34,7 @@ function TableEmployee() {
                 <SearchBox />
               </div>
               <div className="col-md-6 d-flex justify-content-end">
-                <Button variant="outline-secondary">Tambah Data</Button>{" "}
+                <FormInputEmployee />
               </div>
             </div>
             <table className="table table-hover">
@@ -22,26 +42,37 @@ function TableEmployee() {
                 <tr>
                   <th>ID</th>
                   <th>Nama</th>
-                  <th>Tanggal Lahir</th>
+                  <th>Sex</th>
+                  <th>Email</th>
                   <th>Password</th>
-                  <th>Job Desk</th>
+                  <th>Bagian</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Jacob</td>
-                  <td>Photoshop</td>
-                  <td>Photoshop</td>
-                  <td>Photoshop</td>
-                  <td className="text-danger">
-                    {" "}
-                    28.76% <i className="ti-arrow-down" />
-                  </td>
-                  <td>
-                    <ButtonGroup />
-                  </td>
-                </tr>
+                {loading ? (
+                  <tr>
+                    <td colSpan="5">Loading...</td>
+                  </tr>
+                ) : employee.length === 0 ? (
+                  <tr>
+                    <td colSpan="5">No rooms available</td>
+                  </tr>
+                ) : (
+                  employee.map((employes, index) => (
+                    <tr key={employes.id}>
+                      <td>{index + 1}</td>
+                      <td>{employes.name_pegawai}</td>
+                      {employes.sex ? <td>Laki-laki</td> : <td>Perempuan</td>}
+                      <td>{employes.email}</td>
+                      <td>{employes.real_password}</td>
+                      <td>{employes.role.role_name}</td>
+                      <td>
+                        <ButtonGroup />
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -49,6 +80,6 @@ function TableEmployee() {
       </div>
     </div>
   );
-}
+};
 
 export default TableEmployee;
