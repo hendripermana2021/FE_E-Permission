@@ -1,0 +1,12 @@
+.searchbox1 {
+  height: fit-content;
+  align-items: center;
+}
+.searchbox1 .buttonsuccess {
+  height: 1em;
+  align-items: center;
+}
+
+#dropdownclass {
+  padding: 0.7em 1em;
+}

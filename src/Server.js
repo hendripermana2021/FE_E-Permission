@@ -1,3 +1,4 @@
-const server = "https://final-project-fsw1-and1.up.railway.app";
+const serverDev = "http://localhost:8000";
+// const serverProduction = "";
 
-export default server;
+export default serverDev;

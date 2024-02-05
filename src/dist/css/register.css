@@ -1,0 +1,39 @@
+.register .form_container {
+  width: 70%;
+  margin-top: 5rem;
+}
+
+.register .form_container .signup {
+  padding-bottom: 10px;
+}
+
+.registerpage .formlogin {
+  font-size: 18px;
+  font-family: "poppins" sans-serif;
+  font-weight: 500;
+}
+
+.registerpage img {
+  width: 100%;
+  margin-top: -8rem;
+}
+
+.register .form_container {
+  margin-top: 8rem;
+}
+
+.registerpage .register .signup .selectRegister .namaselect {
+  font-size: 29px;
+}
+
+@media screen and (max-width: 1000px) {
+  .form_container {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .form_container {
+    width: 65%;
+  }
+}

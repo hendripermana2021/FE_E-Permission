@@ -1,0 +1,43 @@
+.login .form_container {
+  width: 70%;
+  margin-top: 10rem;
+}
+
+.login .form_container .signin {
+  padding-bottom: 10px;
+}
+
+.loginpage .formlogin {
+  font-size: 18px;
+  font-family: "poppins" sans-serif;
+  font-weight: 500;
+}
+
+.loginpage img {
+  width: 100%;
+  margin-top: 8rem;
+}
+
+.login .form_container .signin .selectRegister {
+  color: "hsl(0, 0%, 40%)";
+  display: "inline-block";
+  font-size: 25px;
+  font-style: "italic";
+  margin: "1em";
+}
+
+.loginpage .login .signin .selectRegister .namaselect {
+  font-size: 29px;
+}
+
+@media screen and (max-width: 1000px) {
+  .form_container {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .form_container {
+    width: 65%;
+  }
+}

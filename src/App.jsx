@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 
 import HomePage from "./pages/admin/HomePage";
-import KelasPage from "./pages/admin/KelasPage";
 import Testimonial from "./pages/admin/Testimonial";
 import SyaratKetentuanPage from "./pages/admin/SyaratKetentuanPage";
 import FaqPage from "./pages/admin/FaqPage";
@@ -16,86 +15,48 @@ import StudentsPage from "./pages/admin/StudentsPage";
 import EmployeePage from "./pages/admin/EmployeePage";
 import PermissionPage from "./pages/admin/PermissionPage";
 import CalculatedPage from "./pages/admin/CalculatedPage";
+import KriteriaPage from "./pages/admin/KriteriaPage";
 
-function App() {
-  return (
-    <div>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              <NavbarComponent />
-              <HomePage />
-            </div>
-          }
-        />
-        <Route
-          path="/kelas"
-          element={
-            <div>
-              <NavbarComponent />
-              <KelasPage />
-            </div>
-          }
-        />
+const LayoutRoute = ({ element, ...rest }) => (
+  <div>
+    <NavbarComponent />
+    {element}
+  </div>
+);
 
-        <Route
-          path="/testimonial"
-          element={
-            <div>
-              <NavbarComponent />
-              <Testimonial />
-            </div>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <div>
-              <NavbarComponent />
-              <LoginPage />
-            </div>
-          }
-        />
-        <Route
-          path="/faq"
-          element={
-            <div>
-              <NavbarComponent />
-              <FaqPage />
-            </div>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <div>
-              <NavbarComponent />
-              <RegisterPage />
-            </div>
-          }
-        />
-        <Route
-          path="/terms"
-          element={
-            <div>
-              <NavbarComponent />
-              <SyaratKetentuanPage />
-            </div>
-          }
-        />
-        <Route path="/admin">
-          <Route index element={<DashboardPage />} />
-          <Route path="roompage" element={<RoomsPage />} />
-          <Route path="students" element={<StudentsPage />} />
-          <Route path="employes" element={<EmployeePage />} />
-          <Route path="permission" element={<PermissionPage />} />
-          <Route path="cpi-calculated" element={<CalculatedPage />} />
-        </Route>
-      </Routes>
-    </div>
-  );
-}
+const AdminRoutes = () => (
+  <Routes>
+    <Route index element={<DashboardPage />} />
+    <Route path="roompage" element={<RoomsPage />} />
+    <Route path="students" element={<StudentsPage />} />
+    <Route path="employes" element={<EmployeePage />} />
+    <Route path="permission" element={<PermissionPage />} />
+    <Route path="kriteria" element={<KriteriaPage />} />
+    <Route path="cpi-calculated" element={<CalculatedPage />} />
+  </Routes>
+);
+
+const App = () => (
+  <Routes>
+    <Route path="/dashboard/*" element={<AdminRoutes />} />
+    <Route path="/" element={<LayoutRoute element={<HomePage />} />} />
+    <Route path="/kelas" element={<LayoutRoute />} />
+    <Route
+      path="/testimonial"
+      element={<LayoutRoute element={<Testimonial />} />}
+    />
+    <Route path="/login" element={<LayoutRoute element={<LoginPage />} />} />
+    <Route path="/faq" element={<LayoutRoute element={<FaqPage />} />} />
+    <Route
+      path="/signup"
+      element={<LayoutRoute element={<RegisterPage />} />}
+    />
+    <Route
+      path="/terms"
+      element={<LayoutRoute element={<SyaratKetentuanPage />} />}
+    />
+    {/* Add more routes as needed */}
+  </Routes>
+);
 
 export default App;

@@ -1,4 +1,27 @@
-function MainDashboard() {
+import axios from "axios";
+import jwt_decode from "jwt-decode";
+import serverDev from "../Server";
+
+import React, { useState, useEffect } from "react";
+
+const MainDashboard = () => {
+  const [name, setName] = useState("");
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    refreshToken();
+  }, []);
+
+  const refreshToken = async () => {
+    try {
+      const response = await axios.get(`${serverDev}token`);
+      setToken(response.data.accessToken);
+      const decoded = jwt_decode("response.data.accessToken");
+      console.log(decoded);
+      console.log(response);
+    } catch (error) {}
+  };
+
   return (
     <div className="content-wrapper">
       <div className="row">
@@ -23,7 +46,7 @@ function MainDashboard() {
         <div className="col-md-3 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
-              <p className="card-title text-md-center text-xl-left">Sales</p>
+              <p className="card-title text-md-center text-xl-left">Pegawai</p>
               <div className="d-flex flex-wrap justify-content-between justify-content-md-center justify-content-xl-between align-items-center">
                 <h3 className="mb-0 mb-md-2 mb-xl-0 order-md-1 order-xl-0">
                   34040
@@ -501,6 +524,6 @@ function MainDashboard() {
       </div>
     </div>
   );
-}
+};
 
 export default MainDashboard;
