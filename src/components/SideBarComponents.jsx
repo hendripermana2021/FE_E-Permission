@@ -10,7 +10,7 @@ function SideBarComponents() {
         </li>
         <li className="nav-item">
           <a className="nav-link" href="/dashboard/roompage">
-            <i className="ti-agenda menu-icon" />
+            <i className="ti-pencil-alt menu-icon" />
             <span className="menu-title">Student Room&apos;s</span>
           </a>
         </li>

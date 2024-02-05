@@ -1,91 +1,111 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import $ from "jquery";
+import "datatables.net";
+import "datatables.net-dt/css/jquery.dataTables.css";
+import "datatables.net-buttons";
+
+// components
 import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import SearchBox from "./materials/SearchBox";
-import FormInputRooms from "./materials/InputFormROoms";
 import serverDev from "../Server";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
+import FormInputRooms from "./materials/InputFormROoms";
+import UpdateFormRooms from "./materials/UpdateFormRooms";
+import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 
 const TableRooms = () => {
-  const [room, setRoom] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [modalData, setModalData] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [NamaRuangan, setNamaRuangan] = useState("");
-  const [id_ustadz, setid_ustadz] = useState("");
-  const [employee, setEmployee] = useState([]);
+  const dataTableRef = useRef(null);
+
+  const [rooms, setRooms] = useState([
+    // Your room data
+    {
+      id: 1,
+      nameroom: "Kamar 1",
+      namaustadz: "Ustadz 1",
+    },
+    {
+      id: 2,
+      nameroom: "Kamar 2",
+      namaustadz: "Ustadz 2",
+    },
+    {
+      id: 3,
+      nameroom: "Kamar 3",
+      namaustadz: "Ustadz 3",
+    },
+  ]);
+  const [employees, setEmployees] = useState([
+    {
+      id: 1,
+      name_pegawai: "Ustadz 1",
+    },
+    {
+      id: 2,
+      name_pegawai: "Ustadz 2",
+    },
+    {
+      id: 3,
+      name_pegawai: "Ustadz 3",
+    },
+  ]);
 
   useEffect(() => {
+    $(dataTableRef.current).DataTable();
     getRoom();
-    getEmployee();
+    getEmployees();
   }, []);
 
   const getRoom = async () => {
     try {
       const response = await axios.get(`${serverDev}/v1/api/room`);
-      setRoom(response.data.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching room data:", error);
-      setLoading(false);
-    }
-  };
-
-  const getEmployee = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/v1/api/pegawai");
-      setEmployee(response.data.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching room data:", error);
-      setLoading(false);
-    }
-  };
-
-  // Fungsi untuk menampilkan form edit dengan ID yang dipilih
-  const handleShowModal = async (id) => {
-    try {
-      const response = await axios.get(`${serverDev}/v1/api/room/${id}`);
-      setModalData(response.data);
-      setShowModal(true);
+      setRooms(response.data.data);
     } catch (error) {
       console.error("Error fetching room data:", error);
     }
   };
 
-  const handleEdit = async () => {
+  const getEmployees = async () => {
     try {
-      // Kirim permintaan PATCH menggunakan axios
-      await axios.patch(`${serverDev}/v1/api/room/update/${modalData.id}`, {
-        nameroom: NamaRuangan,
-        id_ustadz: id_ustadz,
-      });
-      // Tutup modal setelah berhasil
-      setShowModal(false);
-      // Lakukan refresh data atau langkah-langkah lain yang diperlukan
-      getRoom();
+      const response = await axios.get(`${serverDev}/v1/api/pegawai`);
+      setEmployees(response.data.data);
     } catch (error) {
-      console.error("Error editing room data:", error);
+      console.error("Error fetching employee data:", error);
     }
+  };
+
+  const deleteHandler = async (id, nameroom) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to delete " + nameroom + "!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.delete(`${serverDev}/v1/api/room/${id}`);
+          if (response.status === 200) {
+            Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            getRoom();
+          }
+        } catch (error) {
+          console.error("Error deleting room data:", error);
+        }
+      }
+    });
   };
 
   return (
     <div className="container-fluid col-lg-12 grid-margin stretch-card mt-4">
       <div className="card">
         <div className="card-body">
-          <h3 className="card-title">Tabel Kamar Santri/wati</h3>
-          <div className="table-responsive">
-            <div className="row">
-              <div className="searchboxclass col-md-6">
-                <SearchBox />
-              </div>
-              <div className="col-md-6 d-flex justify-content-end">
-                <FormInputRooms />
-              </div>
-            </div>
-            <table className="table table-hover">
+          <h3 className="fw-bold my-3 mb-4">Tabel Kamar Santri/wati</h3>
+          <FormInputRooms emp={employees} />
+
+          <div className="table-responsive mt-4">
+            <table className="table table-hover" ref={dataTableRef}>
               <thead>
                 <tr>
                   <th>Id Ruangan</th>
@@ -95,95 +115,31 @@ const TableRooms = () => {
                 </tr>
               </thead>
               <tbody>
-                {loading ? (
-                  <tr>
-                    <td colSpan="5">Loading...</td>
+                {rooms.map((room) => (
+                  <tr key={room.id}>
+                    <td>R {room.id}</td>
+                    <td>{room.nameroom}</td>
+                    <td>{room.namaustadz}</td>
+                    <td>
+                      <div className="d-block">
+                        <UpdateFormRooms room={room} emp={employees} />
+                        <Button
+                          variant="danger"
+                          className="ms-2"
+                          onClick={deleteHandler.bind(
+                            this,
+                            room.id,
+                            room.nameroom
+                          )}
+                        >
+                          <i className="ti-trash menu-icon" />
+                        </Button>
+                      </div>
+                    </td>
                   </tr>
-                ) : room.length === 0 ? (
-                  <tr>
-                    <td colSpan="5">No rooms available</td>
-                  </tr>
-                ) : (
-                  room.map((rooms, index) => (
-                    <tr key={rooms.id}>
-                      <td>{index + 1}</td>
-                      <td>{rooms.nameroom || "Nama Room Kosong"}</td>
-                      <td>
-                        {rooms.namaustadz
-                          ? rooms.namaustadz.name_pegawai
-                          : "Nama Ustadz Kosong"}
-                      </td>
-                      <td>
-                        <ButtonGroup className="mb-2">
-                          <Button
-                            variant="info"
-                            onClick={() => handleShowModal(rooms.id)}
-                          >
-                            Edit
-                          </Button>
-                          <Button variant="danger">Delete</Button>
-                        </ButtonGroup>
-                      </td>
-                    </tr>
-                  ))
-                )}
+                ))}
               </tbody>
             </table>
-            <>
-              {/* Modal */}
-              <Modal
-                show={showModal}
-                backdrop="static"
-                keyboard={false}
-                onHide={() => setShowModal(false)}
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>Edit Room</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form onSubmit={handleEdit}>
-                    <Form.Group className="mb-3" controlId="formGridAddress1">
-                      <Form.Label>Nama Ruangan</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Nama Ruangan"
-                        value={modalData ? modalData.nameroom : ""}
-                        onChange={(e) => setNamaRuangan(e.target.value)}
-                      />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formGridAddress2">
-                      <Form.Label>Wali Kamar</Form.Label>
-                      <Form.Select
-                        value={modalData ? modalData.id_ustadz : ""}
-                        onChange={(e) => setid_ustadz(e.target.value)}
-                      >
-                        {loading ? (
-                          <option>Default select</option>
-                        ) : (
-                          employee.map((employee, index) => (
-                            <option key={index + 1} value={employee.id}>
-                              {employee.name_pegawai}
-                            </option>
-                          ))
-                        )}
-                      </Form.Select>
-                    </Form.Group>
-                  </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button
-                    variant="secondary"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Close
-                  </Button>
-                  <Button variant="primary" onClick={handleEdit}>
-                    Save Changes
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-            </>
           </div>
         </div>
       </div>
