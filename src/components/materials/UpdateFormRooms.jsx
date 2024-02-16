@@ -81,7 +81,7 @@ const UpdateFormRooms = (props) => {
                 value={id_ustadz}
                 onChange={(e) => setid_ustadz(e.target.value)}
               >
-                <option value={1} selected hidden>
+                <option value={room.namaustadz.id} selected hidden>
                   {room.namaustadz.name_pegawai}
                 </option>
                 {employees.map((employee, index) => (

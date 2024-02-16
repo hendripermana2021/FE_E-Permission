@@ -13,7 +13,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import DropdownButton from "react-bootstrap/DropdownButton";
 
 import Swal from "sweetalert2";
-import DetailFormStudent from "./materials/DetailFormStudent";
+import DetailFormRoom from "./materials/DetailFormRoom";
 import UpdateFormRooms from "./materials/UpdateFormRooms";
 
 const TableRooms = () => {
@@ -128,7 +128,7 @@ const TableRooms = () => {
                           drop="end"
                           variant="secondary"
                         >
-                          <DetailFormStudent room={r} />
+                          <DetailFormRoom room={r} />
                           <UpdateFormRooms room={r} emp={employees} />
                           <button
                             className="dropdown-item"

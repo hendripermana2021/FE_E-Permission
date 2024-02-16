@@ -4,8 +4,8 @@ import Modal from "react-bootstrap/Modal";
 
 import propTypes from "prop-types";
 
-const DetailFormStudent = (props) => {
-  const student = props.student;
+const DetailFormRoom = (props) => {
+  const room = props.room;
 
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
@@ -24,28 +24,20 @@ const DetailFormStudent = (props) => {
         <Modal.Body>
           <div className="row">
             <div className="col-md-6 col-sm-12">
-              <label htmlFor="studentname" className="fw-bold">
-                Nama Santri
+              <label htmlFor="nameroom" className="fw-bold">
+                Nama Kamar
               </label>
-              <p>{student.name_santri}</p>
-              <label htmlFor="studentname" className="fw-bold">
-                Nama Ayah
-              </label>
-              <p>{student.fathername}</p>
-              <label htmlFor="studentname" className="fw-bold">
-                Nama Ibu
-              </label>
-              <p>{student.mothername}</p>
+              <p>{room.nameroom}</p>
             </div>
             <div className="col-md-6 col-sm-12">
               <label htmlFor="namaustadz" className="fw-bold">
-                Nama Kamar
+                Nama Ustadz
               </label>
-              <p>{student.nameroom.nameroom}</p>
+              <p>{room.namaustadz.name_pegawai}</p>
               <label htmlFor="namaustadz" className="fw-bold">
                 Email Ustadz
               </label>
-              <p>{student.nameroom.walikamar.name_pegawai}</p>
+              <p>{room.namaustadz.email}</p>
             </div>
           </div>
         </Modal.Body>
@@ -58,9 +50,8 @@ const DetailFormStudent = (props) => {
     </>
   );
 };
-
-DetailFormStudent.propTypes = {
-  student: propTypes.object,
+DetailFormRoom.propTypes = {
+  room: propTypes.object,
 };
 
-export default DetailFormStudent;
+export default DetailFormRoom;

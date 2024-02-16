@@ -1,28 +1,30 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-
+import Modal from "react-bootstrap/Modal";
 import PropTypes from "prop-types";
-import Swal from "sweetalert2";
+
 import axios from "axios";
+import Swal from "sweetalert2";
 import serverDev from "../../Server";
 
-function FormInputStudent(props) {
+const UpdateFormStudents = (props) => {
   const rooms = props.rooms;
+  const student = props.student;
+
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [room, setRoom] = useState();
-  const [sex, setSex] = useState();
-  const [name, setName] = useState();
-  const [father, setFather] = useState();
-  const [mother, setMother] = useState();
-  const [status, setStatus] = useState();
-
   const handleShow = () => setShow(!show);
 
-  const createHandler = async (e) => {
+  const [room, setRoom] = useState(student.nameroom.id);
+  const [sex, setSex] = useState(student.sex ? 1 : 2);
+  const [name, setName] = useState(student.name_santri);
+  const [father, setFather] = useState(student.fathername);
+  const [mother, setMother] = useState(student.mothername);
+  const [status, setStatus] = useState(student.status ? 1 : 2);
+
+  const updateHandler = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -50,8 +52,8 @@ function FormInputStudent(props) {
       return Swal.fire({ icon: "error", title: "Status tidak boleh kososng" });
 
     try {
-      const res = await axios.post(
-        `${serverDev}/v1/api/santri/register`,
+      const res = await axios.put(
+        `${serverDev}/v1/api/santri/update/${student.id}`,
         {
           name_santri: name,
           sex: parseInt(sex),
@@ -69,39 +71,35 @@ function FormInputStudent(props) {
       );
 
       if (res.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Data Berhasil Diupdate",
+        });
         setIsLoading(false);
-        Swal.fire({ icon: "success", title: "Data berhasil ditambahkan" }).then(
-          () => {
-            setFather("");
-            setMother("");
-            setName("");
-            setRoom("");
-            setSex("");
-            setStatus("");
-            handleShow();
-            // refresh page
-            window.location.reload();
-          }
-        );
+        handleShow();
       }
     } catch (error) {
-      console.log(error.message);
-      Swal.fire({ icon: "error", title: error.message });
+      console.error("Error updating student data:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error updating student data",
+      });
     }
   };
 
   return (
     <>
-      <Button variant="outline-primary" onClick={handleShow}>
-        Tambah Siswa
-      </Button>
+      <button className="dropdown-item" onClick={handleShow}>
+        <i className="ti-pencil-alt menu-icon me-2" />
+        Update
+      </button>
 
       <Modal show={show} onHide={handleShow} backdrop="static" keyboard={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>Input Data Santri</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={createHandler}>
+        <Form onSubmit={updateHandler}>
+          <Modal.Header closeButton>
+            <Modal.Title>Update Data Santri</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
             <div className="row">
               <div className="col-lg-12 col-sm-12">
                 <Form.Group className="mb-3" controlId="formGridAddress1">
@@ -122,7 +120,7 @@ function FormInputStudent(props) {
                     onChange={(e) => setSex(e.target.value)}
                   >
                     <option selected hidden>
-                      === Pilih Jenis Kelamin ====
+                      {student.sex ? "Not Published" : "Undefined Gender"}
                     </option>
                     <option value={1}>Laki - Laki</option>
                     <option value={2}>Perempuan</option>
@@ -158,8 +156,8 @@ function FormInputStudent(props) {
                     value={room}
                     onChange={(e) => setRoom(e.target.value)}
                   >
-                    <option selected hidden>
-                      === Pilih Kamar ====
+                    <option selected hidden value={student.nameroom.id}>
+                      {student.nameroom.nameroom}
                     </option>
                     {rooms.map((r, index) => (
                       <option key={index + 1} value={r.id}>
@@ -176,8 +174,12 @@ function FormInputStudent(props) {
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
                   >
-                    <option selected hidden>
-                      === Pilih Status ====
+                    <option
+                      selected
+                      hidden
+                      value={student.status ? 1 : undefined}
+                    >
+                      {student.status ? "Active" : "In Active"}
                     </option>
                     <option value={1}>Active</option>
                     <option value={2}>In Active</option>
@@ -185,23 +187,24 @@ function FormInputStudent(props) {
                 </Form.Group>
               </div>
             </div>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" type="submit" onClick={createHandler}>
-            {isLoading ? "Loading..." : "Confirm"}
-          </Button>
-          <Button variant="secondary" onClick={handleShow}>
-            Batal
-          </Button>
-        </Modal.Footer>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" type="submit">
+              {isLoading ? "Loading..." : "Confirm"}
+            </Button>
+            <Button variant="secondary" onClick={handleShow}>
+              Batal
+            </Button>
+          </Modal.Footer>
+        </Form>
       </Modal>
     </>
   );
-}
-
-FormInputStudent.propTypes = {
-  rooms: PropTypes.array,
 };
 
-export default FormInputStudent;
+UpdateFormStudents.propTypes = {
+  rooms: PropTypes.array,
+  student: PropTypes.object,
+};
+
+export default UpdateFormStudents;
