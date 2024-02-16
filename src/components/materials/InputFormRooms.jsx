@@ -57,7 +57,7 @@ function FormInputRooms(props) {
 
   return (
     <>
-      <Button variant="outline-primary" size="sm" onClick={handleShow}>
+      <Button variant="outline-primary" onClick={handleShow}>
         Tambah Ruangan
       </Button>
 

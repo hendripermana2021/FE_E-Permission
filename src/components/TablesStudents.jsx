@@ -1,49 +1,112 @@
-import SearchBox from "./materials/SearchBox";
-import ButtonGroup from "./materials/ButtonDropdown";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import "datatables.net";
+import "datatables.net-dt/css/jquery.dataTables.css";
+import $ from "jquery";
+import { useEffect, useRef, useState } from "react";
 import FormInputStudent from "./materials/InputFormStudents";
 
+import serverDev from "../Server";
+import UpdateFromStudents from "./materials/UpdateFromStudents";
+
 const TableStudents = () => {
-  const [student, setStudent] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dataTableRef = useRef(null);
+  const [students, setStudents] = useState([
+    {
+      id: 1,
+      nama_santri: "Santri 1",
+      jenis_kelamin: "Laki-laki",
+      nama_ayah: "Ayah 1",
+      nama_ibu: "Ibu 1",
+      nama_ruangan: "Ruangan 1",
+      tgl_lahir: "2021-08-01",
+      status: "Aktif",
+      rooms: {
+        id: 1,
+        nama_ruangan: "Ruangan 1",
+      },
+    },
+    {
+      id: 2,
+      nama_santri: "Santri 2",
+      jenis_kelamin: "Perempuan",
+      nama_ayah: "Ayah 2",
+      nama_ibu: "Ibu 2",
+      nama_ruangan: "Ruangan 2",
+      tgl_lahir: "2021-08-01",
+      status: "Aktif",
+      rooms: {
+        id: 2,
+        nama_ruangan: "Ruangan 2",
+      },
+    },
+    {
+      id: 3,
+      nama_santri: "Santri 3",
+      jenis_kelamin: "Laki-laki",
+      nama_ayah: "Ayah 3",
+      nama_ibu: "Ibu 3",
+      nama_ruangan: "Ruangan 3",
+      tgl_lahir: "2021-08-01",
+      status: "Aktif",
+      rooms: {
+        id: 3,
+        nama_ruangan: "Ruangan 3",
+      },
+    },
+  ]);
+  const [rooms, setRooms] = useState([
+    {
+      id: 1,
+      nama_ruangan: "Ruangan 1",
+    },
+    {
+      id: 2,
+      nama_ruangan: "Ruangan 2",
+    },
+    {
+      id: 3,
+      nama_ruangan: "Ruangan 3",
+    },
+  ]);
 
   useEffect(() => {
-    getStudent();
+    $(dataTableRef.current).DataTable();
+    getStudents();
+    getRooms();
   }, []);
 
-  const getStudent = async () => {
+  const getStudents = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/v1/api/santri");
-      setStudent(response.data.data);
-      setLoading(false);
+      const response = await axios.get(`${serverDev}/v1/api/santri`);
+      setStudents(response.data.data);
     } catch (error) {
-      console.error("Error fetching room data:", error);
-      setLoading(false);
+      console.error("Error fetching student data:", error);
     }
   };
+
+  const getRooms = async () => {
+    try {
+      const response = await axios.get(`${serverDev}/v1/api/ruangan`);
+      setRooms(response.data.data);
+    } catch (error) {
+      console.error("Error fetching room data:", error);
+    }
+  };
+
   return (
-    <div className="container-fluid col-lg-12 grid-margin stretch-card mt-4">
+    <section className="container-fluid col-lg-12 grid-margin stretch-card mt-4">
       <div className="card">
         <div className="card-body">
-          <h4 className="card-title">TABEL DATA SANTRI/WATI</h4>
-          <p className="card-description"></p>
-          <div className="table-responsive">
-            <div className="row">
-              <div className="searchboxclass col-md-7">
-                <SearchBox />
-              </div>
-              {/* Modal Input Form */}
-              <div className="col-md-5 d-flex justify-content-end">
-                <FormInputStudent />
-              </div>
-            </div>
-            <table className="table table-hover">
+          <h4 className="fw-bold my-3 mb-4">TABEL DATA SANTRI/WATI</h4>
+          <FormInputStudent rooms={rooms} />
+
+          <div className="table-responsive mt-4">
+            <table className="table table-hover" ref={dataTableRef}>
               <thead>
                 <tr>
                   <th>ID</th>
                   <th>Nama Santri/wati</th>
-                  <th>Sex</th>
+                  <th>Jenis Kelamin</th>
                   <th>Nama Ayah</th>
                   <th>Nama Ibu</th>
                   <th>Nama Ruangan</th>
@@ -52,36 +115,38 @@ const TableStudents = () => {
                 </tr>
               </thead>
               <tbody>
-                {loading ? (
-                  <tr>
-                    <td colSpan="5">Loading...</td>
-                  </tr>
-                ) : student.length === 0 ? (
-                  <tr>
-                    <td colSpan="5">No rooms available</td>
-                  </tr>
-                ) : (
-                  student.map((students, index) => (
-                    <tr key={students.id}>
-                      <td>{index + 1}</td>
-                      <td>{students.name_santri}</td>
-                      {students.sex ? <td>Laki-laki</td> : <td>Perempuan</td>}
-                      <td>{students.fathername}</td>
-                      <td>{students.mothername}</td>
-                      <td>{students.nameroom.walikamar.name_pegawai}</td>
-                      {students.status ? <td>Aktif</td> : <td>Tidak Aktif</td>}
+                {students.length > 0 ? (
+                  students.map((student, index) => (
+                    <tr key={index}>
+                      <td>S {student.id}</td>
+                      <td>{student.nama_santri}</td>
+                      <td>{student.jenis_kelamin}</td>
+                      <td>{student.nama_ayah}</td>
+                      <td>{student.nama_ibu}</td>
+                      <td>{student.nama_ruangan}</td>
+                      <td>{student.status}</td>
                       <td>
-                        <ButtonGroup />
+                        <UpdateFromStudents rooms={rooms} student={student} />
+                        <button className="btn btn-danger">
+                          <i className="bi bi-trash-fill"></i>
+                        </button>
                       </td>
                     </tr>
                   ))
+                ) : (
+                  <tr>
+                    <td colSpan="8" className="text-center">
+                      No student data available.
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
+
 export default TableStudents;

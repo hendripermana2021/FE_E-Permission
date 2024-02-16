@@ -19,23 +19,6 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // const Login = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     await axios.post(`${serverDev}login`, {
-  //       email: email,
-  //       password: password,
-  //     });
-  //     navigate("/dashboard");
-  //   } catch (error) {
-  //     if (error.response) {
-  //       console.log(error.response.data);
-  //       setMsg(error.response.data.msg);
-  //       setShow(true);
-  //     }
-  //   }
-  // };
-
   const Login = async (e) => {
     e.preventDefault();
     try {
@@ -115,19 +98,6 @@ const LoginPage = () => {
                         }}
                       />
                     </div>
-                    <div>
-                      <input
-                        type="checkbox"
-                        className="custom-control custom-checkbox"
-                        id="check"
-                      />
-                      <label
-                        htmlFor="check"
-                        className="custom input-label ms-2 mt-2"
-                      >
-                        Remember Me
-                      </label>
-                    </div>
                     <div className="d-flex mt-2 align-items-center text-center">
                       <button className="btn btn-primary" type="submit">
                         Sign In
@@ -145,23 +115,8 @@ const LoginPage = () => {
               </div>
             </Col>
           </Row>
-          {/* <Row>
-            <Col>
-              <h3>POWERED</h3>
-            </Col>
-          </Row> */}
         </Container>
       </header>
-      {/* <div>
-        <Container>
-          <Row>
-            <Col
-              lg="12"
-              className="w-100 vh-100 d-flex align-items-center"
-            ></Col>
-          </Row>
-        </Container>
-      </div> */}
     </div>
   );
 };

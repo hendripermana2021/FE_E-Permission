@@ -5,13 +5,17 @@ import Form from "react-bootstrap/Form";
 
 import PropTypes from "prop-types";
 
-function FormInputStudent(props) {
+const UpdateFromStudents = (props) => {
   const [show, setShow] = useState(false);
   const rooms = props.rooms;
 
   const handleShow = () => setShow(!show);
 
-  const [selectedDate, setSelectedDate] = useState("");
+  const [fatherName, setFatherName] = useState(props.student.nama_ayah);
+  const [motherName, setMotherName] = useState(props.student.nama_ibu);
+  const [studentName, setStudentName] = useState(props.student.nama_santri);
+  const [selectedDate, setSelectedDate] = useState(props.student.tgl_lahir);
+  const [ruangan, setRuangan] = useState(props.student.rooms.nama_ruangan);
 
   // Handler function to update the state when the date changes
   const handleDateChange = (event) => {
@@ -20,13 +24,13 @@ function FormInputStudent(props) {
 
   return (
     <>
-      <Button variant="outline-primary" onClick={handleShow}>
-        Tambah Siswa
+      <Button variant="warning" className="me-2" onClick={handleShow}>
+        <i className="bi bi-pencil-fill"></i>
       </Button>
 
       <Modal show={show} onHide={handleShow} backdrop="static" keyboard={false}>
         <Modal.Header closeButton>
-          <Modal.Title>Input Data Santri</Modal.Title>
+          <Modal.Title>Update Data Santri</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -34,7 +38,11 @@ function FormInputStudent(props) {
               <div className="col-lg-12 col-sm-12">
                 <Form.Group className="mb-3" controlId="formGridAddress1">
                   <Form.Label>Nama Santri</Form.Label>
-                  <Form.Control placeholder="Nama Santri" />
+                  <Form.Control
+                    placeholder="Nama Santri"
+                    value={studentName}
+                    onChange={(e) => setStudentName(e.target.value)}
+                  />
                 </Form.Group>
               </div>
               <div className="col-lg-12 col-sm-12">
@@ -52,22 +60,33 @@ function FormInputStudent(props) {
               <div className="col-lg-6 col-sm-12">
                 <Form.Group className="mb-3" controlId="formGridAddress2">
                   <Form.Label>Nama Ayah</Form.Label>
-                  <Form.Control placeholder="Nama Ayah" />
+                  <Form.Control
+                    placeholder="Nama Ayah"
+                    value={fatherName}
+                    onChange={(e) => setFatherName(e.target.value)}
+                  />
                 </Form.Group>
               </div>
               <div className="col-lg-6 col-sm-12">
                 <Form.Group className="mb-3" controlId="formGridAddress2">
                   <Form.Label>Nama Ibu</Form.Label>
-                  <Form.Control placeholder="Nama Ibu" />
+                  <Form.Control
+                    placeholder="Nama Ibu"
+                    value={motherName}
+                    onChange={(e) => setMotherName(e.target.value)}
+                  />
                 </Form.Group>
               </div>
               <div className="col-lg-12 col-sm-12">
                 <Form.Group className="mb-3" controlId="formGridAddress2">
                   <Form.Label>Ruangan</Form.Label>
-                  <Form.Select>
+                  <Form.Select
+                    value={ruangan}
+                    onChange={(e) => setRuangan(e.target.value)}
+                  >
                     {rooms.map((room, index) => {
                       return (
-                        <option key={index} value={room.id}>
+                        <option key={index + 1} value={room.id}>
                           {room.nama_ruangan}
                         </option>
                       );
@@ -87,10 +106,11 @@ function FormInputStudent(props) {
       </Modal>
     </>
   );
-}
-
-FormInputStudent.propTypes = {
-  rooms: PropTypes.array,
 };
 
-export default FormInputStudent;
+UpdateFromStudents.propTypes = {
+  rooms: PropTypes.array,
+  student: PropTypes.object,
+};
+
+export default UpdateFromStudents;
