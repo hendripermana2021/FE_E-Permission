@@ -1,29 +1,63 @@
+import axios from "axios";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-// import Swal from "sweetalert2";
 
-// import serverDev from "../../Server";
 import propTypes from "prop-types";
+import Swal from "sweetalert2";
+import serverDev from "../../Server";
 
 const UpdateFormRooms = (props) => {
-  const [show, setShow] = useState(false);
-  const [NamaRuangan, setNamaRuangan] = useState(props.room.nameroom);
-  const [id_ustadz, setid_ustadz] = useState(props.room.id);
-
+  const room = props.room;
   const employees = props.emp;
+
+  const [show, setShow] = useState(false);
+  const [NamaRuangan, setNamaRuangan] = useState(room.nameroom);
+  const [id_ustadz, setid_ustadz] = useState(room.id_ustadz);
   const handleShow = () => setShow(!show);
 
   const updateHandler = async (e) => {
     e.preventDefault();
+
+    try {
+      await axios
+        .put(
+          `${serverDev}/v1/api/room/update/${room.id}`,
+          {
+            id_ustadz: parseInt(id_ustadz),
+            nameroom: NamaRuangan,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            Swal.fire({
+              icon: "success",
+              title: "Data Berhasil Diupdate",
+            });
+            handleShow();
+          }
+        });
+    } catch (error) {
+      console.log(error.message);
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+      });
+    }
   };
 
   return (
     <>
-      <Button variant="warning" onClick={handleShow}>
-        <i className="ti-pencil-alt menu-icon" />
-      </Button>
+      <button className="dropdown-item" onClick={handleShow}>
+        <i className="ti-pencil-alt menu-icon me-2" />
+        Update
+      </button>
 
       <Modal show={show} onHide={handleShow} backdrop="static" keyboard={false}>
         <Modal.Header closeButton>
@@ -47,8 +81,11 @@ const UpdateFormRooms = (props) => {
                 value={id_ustadz}
                 onChange={(e) => setid_ustadz(e.target.value)}
               >
+                <option value={1} selected hidden>
+                  {room.namaustadz.name_pegawai}
+                </option>
                 {employees.map((employee, index) => (
-                  <option key={index + 1} value={employee.id}>
+                  <option key={index} value={employee.id}>
                     {employee.name_pegawai}
                   </option>
                 ))}

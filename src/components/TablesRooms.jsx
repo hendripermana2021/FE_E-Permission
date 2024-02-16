@@ -1,63 +1,45 @@
-import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import $ from "jquery";
-import "datatables.net";
-import "datatables.net-dt/css/jquery.dataTables.css";
+import { useEffect, useState } from "react";
 
-// components
-// import Button from "react-bootstrap/Button";
+import "datatables.net-dt/css/jquery.dataTables.min.css";
+import "datatables.net-dt/js/dataTables.dataTables";
+import $ from "jquery";
+import "jquery/dist/jquery.min.js";
+
 import serverDev from "../Server";
 import FormInputRooms from "./materials/InputFormROoms";
-// import UpdateFormRooms from "./materials/UpdateFormRooms";
-// import Swal from "sweetalert2";
-// import Swal from "sweetalert2";
+
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import DropdownButton from "react-bootstrap/DropdownButton";
+
+import Swal from "sweetalert2";
+import DetailFormStudent from "./materials/DetailFormStudent";
+import UpdateFormRooms from "./materials/UpdateFormRooms";
 
 const TableRooms = () => {
-  const dataTableRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // const [rooms, setRooms] = useState([
-  //   // Your room data
-  //   {
-  //     id: 1,
-  //     nameroom: "Kamar 1",
-  //     namaustadz: "Ustadz 1",
-  //   },
-  //   {
-  //     id: 2,
-  //     nameroom: "Kamar 2",
-  //     namaustadz: "Ustadz 2",
-  //   },
-  //   {
-  //     id: 3,
-  //     nameroom: "Kamar 3",
-  //     namaustadz: "Ustadz 3",
-  //   },
-  // ]);
-  const [employees, setEmployees] = useState([
-    {
-      id: 1,
-      name_pegawai: "Ustadz 1",
-    },
-    {
-      id: 2,
-      name_pegawai: "Ustadz 2",
-    },
-    {
-      id: 3,
-      name_pegawai: "Ustadz 3",
-    },
-  ]);
+  const [rooms, setRooms] = useState([]);
+  const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    $(dataTableRef.current).DataTable();
+    if (!$.fn.DataTable.isDataTable("#tableRooms")) {
+      $(document).ready(function () {
+        setTimeout(function () {
+          $("#tableRooms").DataTable();
+        }, 1000);
+      });
+    }
+
     getRoom();
     getEmployees();
-  }, []);
+  }, [rooms]);
 
   const getRoom = async () => {
     try {
-      // const response = await axios.get(`${serverDev}/v1/api/room`);
-      // setRooms(response.data.data);
+      const res = await axios.get(`${serverDev}/v1/api/room`);
+      setRooms(res.data.data);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching room data:", error);
     }
@@ -72,6 +54,39 @@ const TableRooms = () => {
     }
   };
 
+  const deleteHandler = async (r) => {
+    Swal.fire({
+      title: `Are you sure to delete ${r.nameroom}`,
+      text: "You will not be able to recover this data!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, keep it",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios
+            .delete(`${serverDev}/v1/api/room/delete/${r.id}`, {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem(
+                  "accessToken"
+                )}`,
+              },
+            })
+            .then(() => {
+              Swal.fire("Deleted!", `Your data has been deleted.`, "success");
+              getRoom();
+            });
+        } catch (error) {
+          console.error("Error deleting room:", error);
+          Swal.fire("Error!", error.message, "error");
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelled", "Your data is safe :)", "error");
+      }
+    });
+  };
+
   return (
     <div className="container-fluid col-lg-12 grid-margin stretch-card mt-4">
       <div className="card">
@@ -80,7 +95,7 @@ const TableRooms = () => {
           <FormInputRooms emp={employees} />
 
           <div className="table-responsive mt-4">
-            <table className="table table-hover" ref={dataTableRef}>
+            <table className="table table-hover" id="tableRooms">
               <thead>
                 <tr>
                   <th>Id Ruangan</th>
@@ -89,7 +104,45 @@ const TableRooms = () => {
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody></tbody>
+              <tbody>
+                {isLoading ? (
+                  <tr>
+                    <td colSpan="4" className="text-center">
+                      Loading...
+                    </td>
+                  </tr>
+                ) : (
+                  rooms.map((r, index) => (
+                    <tr key={index}>
+                      <td>R {index + 1}</td>
+                      <td>{r.nameroom}</td>
+                      <td>
+                        {/* If name_pegawai is null */}
+                        {r.namaustadz ? r.namaustadz.name_pegawai : "No Ustadz"}
+                      </td>
+                      <td>
+                        <DropdownButton
+                          as={ButtonGroup}
+                          key="end"
+                          id="dropdown-button-drop-end"
+                          drop="end"
+                          variant="secondary"
+                        >
+                          <DetailFormStudent room={r} />
+                          <UpdateFormRooms room={r} emp={employees} />
+                          <button
+                            className="dropdown-item"
+                            onClick={() => deleteHandler(r)}
+                          >
+                            <i className="ti-trash menu-icon me-2" />
+                            Delete
+                          </button>
+                        </DropdownButton>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
             </table>
           </div>
         </div>

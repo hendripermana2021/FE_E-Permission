@@ -6,54 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import FormInputStudent from "./materials/InputFormStudents";
 
 import serverDev from "../Server";
-import UpdateFromStudents from "./materials/UpdateFromStudents";
 
 const TableStudents = () => {
   const dataTableRef = useRef(null);
-  const [students, setStudents] = useState([
-    {
-      id: 1,
-      nama_santri: "Santri 1",
-      jenis_kelamin: "Laki-laki",
-      nama_ayah: "Ayah 1",
-      nama_ibu: "Ibu 1",
-      nama_ruangan: "Ruangan 1",
-      tgl_lahir: "2021-08-01",
-      status: "Aktif",
-      rooms: {
-        id: 1,
-        nama_ruangan: "Ruangan 1",
-      },
-    },
-    {
-      id: 2,
-      nama_santri: "Santri 2",
-      jenis_kelamin: "Perempuan",
-      nama_ayah: "Ayah 2",
-      nama_ibu: "Ibu 2",
-      nama_ruangan: "Ruangan 2",
-      tgl_lahir: "2021-08-01",
-      status: "Aktif",
-      rooms: {
-        id: 2,
-        nama_ruangan: "Ruangan 2",
-      },
-    },
-    {
-      id: 3,
-      nama_santri: "Santri 3",
-      jenis_kelamin: "Laki-laki",
-      nama_ayah: "Ayah 3",
-      nama_ibu: "Ibu 3",
-      nama_ruangan: "Ruangan 3",
-      tgl_lahir: "2021-08-01",
-      status: "Aktif",
-      rooms: {
-        id: 3,
-        nama_ruangan: "Ruangan 3",
-      },
-    },
-  ]);
+  const [students, setStudents] = useState();
   const [rooms, setRooms] = useState([
     {
       id: 1,
@@ -101,7 +57,7 @@ const TableStudents = () => {
           <FormInputStudent rooms={rooms} />
 
           <div className="table-responsive mt-4">
-            <table className="table table-hover" ref={dataTableRef}>
+            <table className="table table-hover">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -114,33 +70,7 @@ const TableStudents = () => {
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
-                {students.length > 0 ? (
-                  students.map((student, index) => (
-                    <tr key={index}>
-                      <td>S {student.id}</td>
-                      <td>{student.nama_santri}</td>
-                      <td>{student.jenis_kelamin}</td>
-                      <td>{student.nama_ayah}</td>
-                      <td>{student.nama_ibu}</td>
-                      <td>{student.nama_ruangan}</td>
-                      <td>{student.status}</td>
-                      <td>
-                        <UpdateFromStudents rooms={rooms} student={student} />
-                        <button className="btn btn-danger">
-                          <i className="bi bi-trash-fill"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="8" className="text-center">
-                      No student data available.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
+              <tbody></tbody>
             </table>
           </div>
         </div>

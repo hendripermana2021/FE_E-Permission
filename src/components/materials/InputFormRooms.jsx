@@ -29,23 +29,30 @@ function FormInputRooms(props) {
     }
 
     try {
-      const post = await axios.post(
-        `${serverDev}/v1/api/room/create`,
-        {
-          id_ustadz: id_ustadz,
-          nameroom: NamaRuangan,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
+      await axios
+        .post(
+          `${serverDev}/v1/api/room/create`,
+          {
+            id_ustadz: parseInt(id_ustadz),
+            nameroom: NamaRuangan,
           },
-        }
-      );
-      Swal.fire({
-        icon: "success",
-        title: post.data.msg,
-      });
-      handleShow();
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            Swal.fire({
+              icon: "success",
+              title: "Data Berhasil Ditambahkan",
+            });
+            setNamaRuangan("");
+            setid_ustadz("");
+            handleShow();
+          }
+        });
     } catch (error) {
       console.log(error.message);
       Swal.fire({
@@ -83,6 +90,9 @@ function FormInputRooms(props) {
                 value={id_ustadz}
                 onChange={(e) => setid_ustadz(e.target.value)}
               >
+                <option value={1} selected hidden>
+                  === Select Ustadz ====
+                </option>
                 {emp.map((employee, index) => (
                   <option key={index + 1} value={employee.id}>
                     {employee.name_pegawai}
