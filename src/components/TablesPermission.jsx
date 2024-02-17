@@ -69,7 +69,7 @@ const TablePermission = () => {
                   permission.map((permissions, index) => (
                     <tr key={permissions.id}>
                       <td>{index + 1}</td>
-                      <td>{permissions.namasantri.name_santri}</td>
+
                       <td>{permissions.start_permission}</td>
                       <td>{permissions.end_permission}</td>
                       <td>{permissions.cpi_result}</td>
