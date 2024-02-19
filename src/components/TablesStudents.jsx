@@ -117,7 +117,7 @@ const TableStudents = () => {
                 ) : (
                   students.map((s, index) => (
                     <tr key={index}>
-                      <td>S {index + 1}</td>
+                      <td>A {index + 1}</td>
                       <td>{s.name_santri}</td>
                       <td>{s.sex ? "Not Published" : "Undefined Gender"}</td>
                       <td>{s.nameroom.nameroom}</td>
