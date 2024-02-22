@@ -35,7 +35,11 @@ const TableEmployee = () => {
 
   const getEmployee = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/v1/api/pegawai");
+      const response = await axios.get("http://localhost:8000/v1/api/pegawai", {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      });
       setEmployee(response.data.data);
       setLoading(false);
     } catch (error) {

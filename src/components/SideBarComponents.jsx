@@ -44,12 +44,6 @@ function SideBarComponents() {
             <span className="menu-title">Calculated</span>
           </a>
         </li>
-        <li className="nav-item">
-          <a className="nav-link" href="/dashboard/documentation.html">
-            <i className="ti-write menu-icon" />
-            <span className="menu-title">Generate Report</span>
-          </a>
-        </li>
       </ul>
     </nav>
   );

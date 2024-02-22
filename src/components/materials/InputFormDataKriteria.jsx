@@ -98,17 +98,7 @@ function FormInputKriteria() {
         }
       );
 
-      if (res.data.msg == "Scale Priority is Duplicate, please change") {
-        setIsSubmitting(false);
-
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: res.data.msg,
-        }).then(() => {
-          handleShow();
-        });
-      } else {
+      if (res.status == 200) {
         setIsSubmitting(false);
 
         Swal.fire({
@@ -118,6 +108,16 @@ function FormInputKriteria() {
         }).then(() => {
           handleShow();
           window.location.reload();
+        });
+      } else {
+        setIsSubmitting(false);
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: res.data.msg,
+        }).then(() => {
+          handleShow();
         });
       }
     } catch (error) {

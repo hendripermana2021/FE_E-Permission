@@ -32,7 +32,14 @@ const TableKriteria = () => {
 
   const getKriteria = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/v1/api/kriteria");
+      const response = await axios.get(
+        "http://localhost:8000/v1/api/kriteria",
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+          },
+        }
+      );
       setKriteria(response.data.data);
       setLoading(false);
     } catch (error) {
@@ -121,10 +128,7 @@ const TableKriteria = () => {
                             className="dropdown-item"
                             onClick={() => deleteHandler(kriterias)}
                           >
-                            <i
-                              className="ti-trash menu-icon me-2"
-                              onChange={() => deleteHandler(kriterias)}
-                            />
+                            <i className="ti-trash menu-icon me-2" />
                             Delete
                           </button>
                         </DropdownButton>

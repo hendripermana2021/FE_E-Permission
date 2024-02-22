@@ -1,22 +1,48 @@
-import ButtonGroup from "./materials/ButtonDropdown";
-import SearchBox from "./materials/SearchBox";
-import { useEffect, useState } from "react";
 import axios from "axios";
-import FormInputPermission from "./materials/InputFormPermission";
+import { useEffect, useState } from "react";
+
+import "datatables.net-dt/css/jquery.dataTables.min.css";
+import "datatables.net-dt/js/dataTables.dataTables";
+import $ from "jquery";
+import "jquery/dist/jquery.min.js";
+
+import InputFormPermission from "./materials/InputFormPermission";
+
+import Swal from "sweetalert2";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import DetailFormPermission from "./materials/DetailFormPermission";
+import UpdateFormPermission from "./materials/UpdateFormPermission";
 
 const TablePermission = () => {
   const [permission, setPermission] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [kriteria, setKriteria] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!$.fn.DataTable.isDataTable("#tablePermission")) {
+      $(document).ready(function () {
+        setTimeout(function () {
+          $("#tablePermission").DataTable();
+        }, 1000);
+      });
+    }
+
     getPermission();
-    console.log(getPermission);
+    getSantri();
+    getKriteria();
   }, []);
 
   const getPermission = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/v1/api/permission/all"
+        "http://localhost:8000/v1/api/permission/all",
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+          },
+        }
       );
       setPermission(response.data.data);
       setLoading(false);
@@ -26,79 +52,132 @@ const TablePermission = () => {
     }
   };
 
+  const getSantri = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/v1/api/santri", {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      });
+      setUsers(response.data.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching room data:", error);
+      setLoading(false);
+    }
+  };
+
+  const getKriteria = async () => {
+    try {
+      const res = await axios.get("http://localhost:8000/v1/api/kriteria", {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      });
+
+      setKriteria(res.data.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching room data:", error);
+      setLoading(false);
+    }
+  };
+
+  const deleteHandler = async (p) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios
+            .delete(`http://localhost:8000/v1/api/permission/delete/${p.id}`, {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem(
+                  "accessToken"
+                )}`,
+              },
+            })
+            .then(() => {
+              Swal.fire(
+                "Deleted!",
+                "Your data has been deleted.",
+                "success"
+              ).then(() => {
+                getPermission();
+              });
+            });
+        } catch (error) {
+          console.error("Error deleting data:", error);
+        }
+      }
+    });
+  };
+
   return (
     <div className="container-fluid col-lg-12 col-md-12 grid-margin stretch-card mt-4">
       <div className="card">
         <div className="card-body">
-          <h3 className="card-title">Tabel Permission Santri/ Wati</h3>
-          <div className="table-responsive">
-            <div className="row">
-              <div className="searchboxclass col-md-6">
-                <SearchBox />
-              </div>
-              <div className="col-md-6 d-flex justify-content-end">
-                <FormInputPermission />
-              </div>
-            </div>
-            <table className="table table-hover">
+          <h4 className="fw-bold my-3 mb-4">Table Kriteria dan Sub Kriteria</h4>
+          <InputFormPermission users={users} kriterias={kriteria} />
+          <div className="table-responsive mt-4">
+            <table className="table table-hover" id="tablePermission">
               <thead>
                 <tr>
                   <th>ID</th>
                   <th>Nama Santri/wati</th>
                   <th>Date From</th>
                   <th>Until Date</th>
-                  <th>Score</th>
-                  <th>Code</th>
-                  <th>Permission Status</th>
-                  <th>Created By</th>
-                  <th>Val. Go By</th>
-                  <th>Val. Back By</th>
+                  <th className="text-center">Permission Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan="5">Loading...</td>
-                  </tr>
-                ) : permission.length === 0 ? (
-                  <tr>
-                    <td colSpan="5">No rooms available</td>
+                    <td colSpan="6" align="center">
+                      Loading...
+                    </td>
                   </tr>
                 ) : (
-                  permission.map((permissions, index) => (
-                    <tr key={permissions.id}>
-                      <td>{index + 1}</td>
-
-                      <td>{permissions.start_permission}</td>
-                      <td>{permissions.end_permission}</td>
-                      <td>{permissions.cpi_result}</td>
-                      <td>{permissions.validation_code}</td>
-                      {permissions.permission_status == false &&
-                      permissions.val_go_name === null ? (
-                        <td>No Used</td>
-                      ) : permissions.permission_status == true &&
-                        permissions.val_back_name === null ? (
-                        <td>Active</td>
-                      ) : permissions.val_back_name != null ? (
-                        <td>No Active</td>
-                      ) : (
-                        <td>--</td>
-                      )}
-                      <td>{permissions.created_permission.name_pegawai}</td>
-                      {permissions.val_go_name === null ? (
-                        <td>--</td>
-                      ) : (
-                        <td>{permissions.val_go_name.name_pegawai}</td>
-                      )}
-                      {/* asdasd */}
-                      {permissions.val_back_name === null ? (
-                        <td>--</td>
-                      ) : (
-                        <td>{permissions.val_back_name.name_pegawai}</td>
-                      )}
+                  permission.map((p, index) => (
+                    <tr key={index}>
+                      <td>P {index + 1}</td>
+                      <td>{p.namasantri.name_santri}</td>
+                      <td>{new Date(p.start_permission).toLocaleString()}</td>
+                      <td>{new Date(p.end_permission).toLocaleString()}</td>
+                      <td className="text-center">
+                        {p.permission_status ? "Disetujui" : "Ditolak"}
+                      </td>
                       <td>
-                        <ButtonGroup />
+                        <DropdownButton
+                          as={ButtonGroup}
+                          key="end"
+                          id="dropdown-button-drop-end"
+                          drop="end"
+                          variant="secondary"
+                        >
+                          <DetailFormPermission permission={p} />
+
+                          <UpdateFormPermission
+                            permission={p}
+                            users={users}
+                            kriterias={kriteria}
+                          />
+
+                          <button
+                            className="dropdown-item"
+                            onClick={() => deleteHandler(p)}
+                          >
+                            <i className="ti-trash menu-icon me-2" />
+                            Delete
+                          </button>
+                        </DropdownButton>
                       </td>
                     </tr>
                   ))
