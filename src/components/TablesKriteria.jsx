@@ -61,7 +61,14 @@ const TableKriteria = () => {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `http://localhost:8000/v1/api/kriteria/delete/${k.id}`
+            `http://localhost:8000/v1/api/kriteria/delete/${k.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem(
+                  "accessToken"
+                )}`,
+              },
+            }
           );
           getKriteria();
           Swal.fire("Deleted!", "Your data has been deleted.", "success");

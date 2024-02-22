@@ -68,7 +68,9 @@ function FormInputKriteria() {
     setIsSubmitting(true);
 
     // form validation
-    if (name === "" || type === "" || weight === "" || priority === "") {
+    if (name === "" || type === "" || priority === "") {
+      setIsSubmitting(false);
+
       return Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -93,7 +95,7 @@ function FormInputKriteria() {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")} `,
+            Authorization: `Bearer ${sessionStorage.getItem("accessToken")} `,
           },
         }
       );
