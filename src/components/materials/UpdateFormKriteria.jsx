@@ -4,40 +4,44 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Swal from "sweetalert2";
+import propTypes from "prop-types";
 
-function FormInputKriteria() {
-  const [name, setName] = useState("");
-  const [type, setType] = useState("");
-  const [weight, setWeight] = useState("");
-  const [priority, setPriority] = useState("");
+const UpdateFormKriteria = (props) => {
+  const k = props.kriteria;
+
+  const [name, setName] = useState(k.name_kriteria);
+  const [type, setType] = useState(k.type);
+  const [weight, setWeight] = useState(k.weight_score);
+  const [priority, setPriority] = useState(k.scale_priority);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // make array of object state for subKriteria
   const [subKriteria, setSubKriteria] = useState([
+    //  Loop k.sub_kriteria
     {
-      name_sub: "",
-      value: "",
+      name_sub: k.sub_kriteria[0] ? k.sub_kriteria[0].name_sub : "",
+      value: k.sub_kriteria[0] ? k.sub_kriteria[0].value : "",
     },
     {
-      name_sub: "",
-      value: "",
+      name_sub: k.sub_kriteria[1] ? k.sub_kriteria[1].name_sub : "",
+      value: k.sub_kriteria[1] ? k.sub_kriteria[1].value : "",
     },
     {
-      name_sub: "",
-      value: "",
+      name_sub: k.sub_kriteria[2] ? k.sub_kriteria[2].name_sub : "",
+      value: k.sub_kriteria[2] ? k.sub_kriteria[2].value : "",
     },
     {
-      name_sub: "",
-      value: "",
+      name_sub: k.sub_kriteria[3] ? k.sub_kriteria[3].name_sub : "",
+      value: k.sub_kriteria[3] ? k.sub_kriteria[3].value : "",
     },
     {
-      name_sub: "",
-      value: "",
+      name_sub: k.sub_kriteria[4] ? k.sub_kriteria[4].name_sub : "",
+      value: k.sub_kriteria[4] ? k.sub_kriteria[4].value : "",
     },
     {
-      name_sub: "",
-      value: "",
+      name_sub: k.sub_kriteria[5] ? k.sub_kriteria[5].name_sub : "",
+      value: k.sub_kriteria[5] ? k.sub_kriteria[5].value : "",
     },
   ]);
 
@@ -47,7 +51,7 @@ function FormInputKriteria() {
 
   //For Handle Button Sub Kriteria
   const [selectedOption, setSelectedOption] = useState("");
-  const [additionalRows, setAdditionalRows] = useState([]);
+  const [additionalRows, setAdditionalRows] = useState(k.sub_kriteria);
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -63,14 +67,12 @@ function FormInputKriteria() {
     }
   };
 
-  const createHandler = async (e) => {
+  const updateHandler = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     // form validation
-    if (name === "" || type === "" || priority === "") {
-      setIsSubmitting(false);
-
+    if (name === "" || type === "" || weight === "" || priority === "") {
       return Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -84,44 +86,35 @@ function FormInputKriteria() {
     );
 
     try {
-      const res = await axios.post(
-        "http://localhost:8000/v1/api/kriteria/create",
-        {
-          name_kriteria: name,
-          scale_priority: parseInt(priority),
-          type: type,
-          weight_score: weight,
-          subkriteria: filteredSubKriteria,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("accessToken")} `,
+      await axios
+        .put(
+          "http://localhost:8000/v1/api/kriteria/update/" + k.id,
+          {
+            name_kriteria: name,
+            scale_priority: parseInt(priority),
+            type: type,
+            weight_score: weight,
+            subkriteria: filteredSubKriteria,
           },
-        }
-      );
+          {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            Swal.fire({
+              icon: "success",
+              title: "Data Berhasil Diupdate",
+            }).then(() => {
+              setIsSubmitting(false);
 
-      if (res.status == 200) {
-        setIsSubmitting(false);
-
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil",
-          text: "Data Kriteria berhasil ditambahkan",
-        }).then(() => {
-          handleShow();
-          window.location.reload();
+              handleShow();
+              window.location.reload();
+            });
+          }
         });
-      } else {
-        setIsSubmitting(false);
-
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: res.data.msg,
-        }).then(() => {
-          handleShow();
-        });
-      }
     } catch (error) {
       console.log(error);
       setIsSubmitting(false);
@@ -135,9 +128,10 @@ function FormInputKriteria() {
 
   return (
     <>
-      <Button variant="outline-primary" size="sm" onClick={handleShow}>
-        Tambah Kriteria
-      </Button>
+      <button className="dropdown-item" onClick={handleShow}>
+        <i className="ti-pencil-alt menu-icon me-2" />
+        Update
+      </button>
 
       <Modal
         show={show}
@@ -146,7 +140,7 @@ function FormInputKriteria() {
         keyboard={false}
         size="lg"
       >
-        <Form onSubmit={createHandler}>
+        <Form onSubmit={updateHandler}>
           <Modal.Header closeButton>
             <Modal.Title>Form Input Data Kriteria</Modal.Title>
           </Modal.Header>
@@ -181,7 +175,7 @@ function FormInputKriteria() {
                     onChange={(e) => setType(e.target.value)}
                   >
                     <option selected hidden>
-                      -- Pilih Type --
+                      {k.type ? "Benefit" : "Cost"}
                     </option>
                     <option value={1}>Benefit</option>
                     <option value={0}>Cost</option>
@@ -205,9 +199,10 @@ function FormInputKriteria() {
                   <Form.Select
                     value={selectedOption}
                     onChange={handleOptionChange}
+                    disabled
                   >
                     <option selected hidden>
-                      -- Pilih Banyak Sub Kriteria --
+                      {additionalRows.length}
                     </option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -273,6 +268,9 @@ function FormInputKriteria() {
       </Modal>
     </>
   );
-}
+};
+UpdateFormKriteria.propTypes = {
+  kriteria: propTypes.object.isRequired,
+};
 
-export default FormInputKriteria;
+export default UpdateFormKriteria;

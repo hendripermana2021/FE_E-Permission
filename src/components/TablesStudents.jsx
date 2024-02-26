@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-// for tables library
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import "datatables.net-dt/js/dataTables.dataTables";
 import $ from "jquery";
@@ -118,11 +117,11 @@ const TableStudents = () => {
                 ) : (
                   students.map((s, index) => (
                     <tr key={index}>
-                      <td>S {index + 1}</td>
+                      <td>A {index + 1}</td>
                       <td>{s.name_santri}</td>
-                      <td>{s.sex ? "Not Published" : "Undefined Gender"}</td>
+                      <td>{s.sex ? "Laki - Laki" : "Perempuan"}</td>
                       <td>{s.nameroom.nameroom}</td>
-                      <td>{s.status ? "Active" : "In Active"}</td>
+                      <td>{s.status ? "Active" : "Non Active"}</td>
                       <td>
                         <DropdownButton
                           as={ButtonGroup}

@@ -1,28 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import axios from "axios";
-
+import Modal from "react-bootstrap/Modal";
 import propTypes from "prop-types";
-import Swal from "sweetalert2";
 
-function FormInputPermission(props) {
+import axios from "axios";
+import Swal from "sweetalert2";
+import serverDev from "../../Server";
+
+const UpdateFormPermission = (props) => {
   const users = props.users;
   const kriterias = props.kriterias;
+  const permission = props.permission;
 
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => setShow(!show);
 
-  const [commented, setCommented] = useState("");
-  const [student, setStudent] = useState();
+  const [commented, setCommented] = useState(permission.commented);
+  const [student, setStudent] = useState(permission.student_id);
 
-  const [selectedDateFrom, setSelectedDateFrom] = useState("");
-  const [selectedDateUntil, setSelectedDateUntil] = useState("");
+  const [selectedDateFrom, setSelectedDateFrom] = useState(
+    new Date(permission.start_permission).toISOString().split("T")[0]
+  );
+  const [selectedDateUntil, setSelectedDateUntil] = useState(
+    new Date(permission.end_permission).toISOString().split("T")[0]
+  );
   const [selectedKriteria, setSelectedKriteria] = useState({});
+
+  useEffect(() => {
+    const initialSelectedKriteria = {};
+    permission.cpi_data.forEach((s) => {
+      initialSelectedKriteria[s.kriteria.id] = s.subkriteria.id;
+    });
+    setSelectedKriteria(initialSelectedKriteria);
+  }, [permission.cpi_data]);
 
   const handleDateChange = (event) => {
     setSelectedDateFrom(event.target.value);
@@ -31,7 +44,7 @@ function FormInputPermission(props) {
     setSelectedDateUntil(event.target.value);
   };
 
-  const createHandler = async (e) => {
+  const updateHandler = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -40,7 +53,7 @@ function FormInputPermission(props) {
     for (let i = 0; i < kriterias.length; i++) {
       allKriteria.push({
         id_kriteria: kriterias[i].id,
-        id_subkriteria: parseInt(selectedKriteria[i + 1]),
+        id_subkriteria: parseInt(selectedKriteria[kriterias[i].id]),
       });
     }
 
@@ -49,8 +62,8 @@ function FormInputPermission(props) {
 
     try {
       await axios
-        .post(
-          `http://localhost:8000/v1/api/permission/create`,
+        .put(
+          `${serverDev}/v1/api/permission/update/${permission.id}`,
           {
             student_id: parseInt(student),
             start_permission: selectedDateFrom,
@@ -64,44 +77,42 @@ function FormInputPermission(props) {
             },
           }
         )
-        .then((res) => {
-          if (res.status === 200) {
-            Swal.fire({
-              icon: "success",
-              title: "Berhasil",
-              text: "Data berhasil ditambahkan",
-            }).then(() => {
-              setIsLoading(false);
-              handleClose();
-
+        .then(() => {
+          setIsLoading(false);
+          handleShow();
+          Swal.fire("Data updated!", "Data has been updated.", "success").then(
+            () => {
               window.location.reload();
-            });
-          }
+            }
+          );
         });
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching room data:", error);
+      setIsLoading(false);
+
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: error.data.msg,
+        text: error.message,
       });
     }
   };
 
   return (
     <>
-      <Button variant="outline-primary" size="sm" onClick={handleShow}>
-        Tambah Permission
-      </Button>
+      <button className="dropdown-item" onClick={handleShow}>
+        <i className="ti-pencil-alt menu-icon me-2" />
+        Update
+      </button>
 
       <Modal
         show={show}
-        onHide={handleClose}
+        onHide={handleShow}
         backdrop="static"
         keyboard={false}
         size="lg"
       >
-        <Form onSubmit={createHandler}>
+        <Form onSubmit={updateHandler}>
           <Modal.Header closeButton>
             <Modal.Title>Form Input Data Permission</Modal.Title>
           </Modal.Header>
@@ -113,8 +124,8 @@ function FormInputPermission(props) {
                 value={student}
                 onChange={(e) => setStudent(e.target.value)}
               >
-                <option selected hidden>
-                  --- Pilih Santri ----
+                <option selected value={permission.namasantri.id}>
+                  {permission.namasantri.name_santri}
                 </option>
                 {users.map((u, index) => (
                   <option value={u.id} key={index}>
@@ -180,9 +191,16 @@ function FormInputPermission(props) {
                           })
                         }
                       >
-                        <option selected hidden>
-                          --- Pilih Sub Kriteria ----
-                        </option>
+                        {permission.cpi_data.map((s, index) => {
+                          <option
+                            value={s.subkriteria.id}
+                            key={index}
+                            selected
+                            hidden
+                          >
+                            {s.subkriteria.name_sub}
+                          </option>;
+                        })}
                         {k.sub_kriteria.map((sub, index) => (
                           <option value={sub.id} key={index}>
                             {sub.name_sub}
@@ -199,7 +217,7 @@ function FormInputPermission(props) {
             <Button variant="primary" type="submit">
               {isLoading ? "Loading..." : "Confirm"}
             </Button>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button variant="secondary" onClick={handleShow}>
               Batal
             </Button>
           </Modal.Footer>
@@ -207,11 +225,12 @@ function FormInputPermission(props) {
       </Modal>
     </>
   );
-}
-
-FormInputPermission.propTypes = {
-  users: propTypes.array,
-  kriterias: propTypes.array,
 };
 
-export default FormInputPermission;
+UpdateFormPermission.propTypes = {
+  users: propTypes.array,
+  kriterias: propTypes.array,
+  permission: propTypes.object,
+};
+
+export default UpdateFormPermission;

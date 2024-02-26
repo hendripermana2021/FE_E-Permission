@@ -18,7 +18,12 @@ function FormInputStudent(props) {
   const [name, setName] = useState();
   const [father, setFather] = useState();
   const [mother, setMother] = useState();
-  const [status, setStatus] = useState();
+  const [image, setImage] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+  };
 
   const handleShow = () => setShow(!show);
 
@@ -27,6 +32,10 @@ function FormInputStudent(props) {
     setIsLoading(true);
 
     // form validation
+    if (!image) {
+      return Swal.fire({ icon: "error", title: "Gambar tidak boleh kososng" });
+    }
+
     if (!name)
       return Swal.fire({ icon: "error", title: "Nama tidak boleh kososng" });
     if (!sex)
@@ -46,23 +55,23 @@ function FormInputStudent(props) {
       });
     if (!room)
       return Swal.fire({ icon: "error", title: "Ruangan tidak boleh kososng" });
-    if (!status)
-      return Swal.fire({ icon: "error", title: "Status tidak boleh kososng" });
+
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("name_santri", name);
+    formData.append("sex", parseInt(sex));
+    formData.append("fathername", father);
+    formData.append("mothername", mother);
+    formData.append("id_room", parseInt(room));
+    formData.append("role_id", 2);
 
     try {
       const res = await axios.post(
         `${serverDev}/v1/api/santri/register`,
-        {
-          name_santri: name,
-          sex: parseInt(sex),
-          fathername: father,
-          mothername: mother,
-          id_room: parseInt(room),
-          status: parseInt(status),
-          role_id: 2,
-        },
+        formData,
         {
           headers: {
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
           },
         }
@@ -77,7 +86,6 @@ function FormInputStudent(props) {
             setName("");
             setRoom("");
             setSex("");
-            setStatus("");
             handleShow();
             // refresh page
             window.location.reload();
@@ -103,6 +111,34 @@ function FormInputStudent(props) {
         <Modal.Body>
           <Form onSubmit={createHandler}>
             <div className="row">
+              <div className="col-lg-12 col-sm-12">
+                <div className="row mb-3">
+                  <div className="col-md-3">
+                    {image && (
+                      <div>
+                        <img
+                          src={URL.createObjectURL(image)}
+                          alt="Selected"
+                          style={{ maxWidth: "100%" }}
+                          className="img-fluid rounded-circle"
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-md-9">
+                    <Form.Group className="mb-3" controlId="formGridAddress1">
+                      <Form.Label>Foto profil</Form.Label>
+
+                      <Form.Control
+                        placeholder="Nama Santri"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                      />
+                    </Form.Group>
+                  </div>
+                </div>
+              </div>
               <div className="col-lg-12 col-sm-12">
                 <Form.Group className="mb-3" controlId="formGridAddress1">
                   <Form.Label>Nama Santri</Form.Label>
@@ -166,21 +202,6 @@ function FormInputStudent(props) {
                         {r.nameroom}
                       </option>
                     ))}
-                  </Form.Select>
-                </Form.Group>
-              </div>
-              <div className="col-lg-12 col-sm-12">
-                <Form.Group className="mb-3" controlId="formGridAddress2">
-                  <Form.Label>Status </Form.Label>
-                  <Form.Select
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    <option selected hidden>
-                      === Pilih Status ====
-                    </option>
-                    <option value={1}>Active</option>
-                    <option value={2}>In Active</option>
                   </Form.Select>
                 </Form.Group>
               </div>

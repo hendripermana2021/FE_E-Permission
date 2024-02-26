@@ -1,27 +1,4 @@
-import axios from "axios";
-import jwt_decode from "jwt-decode";
-import serverDev from "../Server";
-
-import React, { useState, useEffect } from "react";
-
 const MainDashboard = () => {
-  const [name, setName] = useState("");
-  const [token, setToken] = useState("");
-
-  useEffect(() => {
-    refreshToken();
-  }, []);
-
-  const refreshToken = async () => {
-    try {
-      const response = await axios.get(`${serverDev}token`);
-      setToken(response.data.accessToken);
-      const decoded = jwt_decode("response.data.accessToken");
-      console.log(decoded);
-      console.log(response);
-    } catch (error) {}
-  };
-
   return (
     <div className="content-wrapper">
       <div className="row">

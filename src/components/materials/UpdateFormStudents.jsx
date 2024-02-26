@@ -24,6 +24,13 @@ const UpdateFormStudents = (props) => {
   const [mother, setMother] = useState(student.mothername);
   const [status, setStatus] = useState(student.status ? 1 : 2);
 
+  const [image, setImage] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+  };
+
   const updateHandler = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -51,17 +58,21 @@ const UpdateFormStudents = (props) => {
     if (!status)
       return Swal.fire({ icon: "error", title: "Status tidak boleh kososng" });
 
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("name_santri", name);
+    formData.append("sex", parseInt(sex));
+    formData.append("fathername", father);
+    formData.append("mothername", mother);
+    formData.append("id_room", parseInt(room));
+    formData.append("status", parseInt(status));
+    formData.append("role_id", 2);
+
     try {
       const res = await axios.put(
         `${serverDev}/v1/api/santri/update/${student.id}`,
         {
-          name_santri: name,
-          sex: parseInt(sex),
-          fathername: father,
-          mothername: mother,
-          id_room: parseInt(room),
-          status: parseInt(status),
-          role_id: 2,
+          formData,
         },
         {
           headers: {
@@ -101,6 +112,34 @@ const UpdateFormStudents = (props) => {
           </Modal.Header>
           <Modal.Body>
             <div className="row">
+              <div className="col-md-12 col-sm12">
+                <div className="row mb-3">
+                  <div className="col-md-3">
+                    {image && (
+                      <div>
+                        <img
+                          src={URL.createObjectURL(image)}
+                          alt="Selected"
+                          style={{ maxWidth: "100%" }}
+                          className="img-fluid rounded-circle"
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-md-9">
+                    <Form.Group className="mb-3" controlId="formGridAddress1">
+                      <Form.Label>Foto profil</Form.Label>
+
+                      <Form.Control
+                        placeholder="Nama Santri"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                      />
+                    </Form.Group>
+                  </div>
+                </div>
+              </div>
               <div className="col-lg-12 col-sm-12">
                 <Form.Group className="mb-3" controlId="formGridAddress1">
                   <Form.Label>Nama Santri</Form.Label>

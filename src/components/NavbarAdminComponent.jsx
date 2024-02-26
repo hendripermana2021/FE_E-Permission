@@ -185,10 +185,10 @@ function NavbarAdminComponent() {
                 <i className="ti-settings text-primary" />
                 Settings
               </a>
-              <a className="dropdown-item">
+              <button className="dropdown-item">
                 <i className="ti-power-off text-primary" />
                 Logout
-              </a>
+              </button>
             </div>
           </li>
         </ul>

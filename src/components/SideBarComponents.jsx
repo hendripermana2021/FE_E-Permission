@@ -1,4 +1,28 @@
-function SideBarComponents() {
+import { useState, useEffect } from "react";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
+
+const SideBarComponents = () => {
+  const token = sessionStorage.getItem("accessToken");
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/v1/api/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setData(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <nav className="sidebar sidebar-offcanvas" id="sidebar">
       <ul className="nav">
@@ -45,14 +69,14 @@ function SideBarComponents() {
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/dashboard/documentation.html">
-            <i className="ti-write menu-icon" />
-            <span className="menu-title">Generate Report</span>
+          <a className="nav-link" href="/dashboard/approval">
+            <i className="ti-check menu-icon" />
+            <span className="menu-title">Approval</span>
           </a>
         </li>
       </ul>
     </nav>
   );
-}
+};
 
 export default SideBarComponents;

@@ -1,21 +1,24 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
+import Form from "react-bootstrap/Form";
+
 import axios from "axios";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
+
 import Swal from "sweetalert2";
 import serverDev from "../../Server";
 
-function FormInputEmployee(prop) {
-  const roles = prop.roles;
+const UpdateFormEmployee = (props) => {
+  const roles = props.roles;
+  const emp = props.emp;
 
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
+  const [name, setName] = useState(emp.name_pegawai);
+  const [email, setEmail] = useState(emp.email);
   const [password, setPassword] = useState();
   const [confPassword, setConfPassword] = useState();
   const [role, setRole] = useState();
@@ -23,7 +26,7 @@ function FormInputEmployee(prop) {
 
   const handleShow = () => setShow(!show);
 
-  const createHandler = async (e) => {
+  const updateHandler = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -36,89 +39,73 @@ function FormInputEmployee(prop) {
       setIsLoading(false);
       return Swal.fire({ icon: "error", title: "Email tidak boleh kososng" });
     }
-    if (!password) {
-      setIsLoading(false);
-      return Swal.fire({
-        icon: "error",
-        title: "Password tidak boleh kososng",
-      });
-    }
-    if (!confPassword) {
-      setIsLoading(false);
-      return Swal.fire({
-        icon: "error",
-        title: "Confirm Password tidak boleh kososng",
-      });
-    }
     if (!role) {
       setIsLoading(false);
       return Swal.fire({ icon: "error", title: "Role tidak boleh kososng" });
     }
-    if (!sex) {
-      setIsLoading(false);
-      return Swal.fire({
-        icon: "error",
-        title: "Jenis Kelamin tidak boleh kososng",
-      });
-    }
-
-    if (password !== confPassword) {
-      setIsLoading(false);
-      return Swal.fire({ icon: "error", title: "Password tidak sama" });
-    }
-    try {
-      const res = await axios.post(
-        `${serverDev}/v1/api/pegawai/register`,
-        {
-          name_pegawai: name,
-          email: email,
-          password: password,
-          role_id: parseInt(role),
-          sex: parseInt(sex),
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-          },
-        }
-      );
-
-      if (res.status === 200) {
+    if (password) {
+      if (!confPassword) {
         setIsLoading(false);
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil",
-          text: "Data berhasil ditambahkan",
-        }).then(() => {
-          setName("");
-          setPassword("");
-          setConfPassword("");
-          setRole("");
-          setSex("");
-          handleShow();
-
-          // refresh page
-          window.location.reload();
+        return Swal.fire({
+          icon: "error",
+          title: "Confirm Password tidak boleh kososng",
         });
       }
+      if (password !== confPassword) {
+        setIsLoading(false);
+        return Swal.fire({
+          icon: "error",
+          title: "Password dan Confirm Password tidak sama",
+        });
+      }
+    }
+
+    try {
+      await axios
+        .put(
+          `${serverDev}/v1/api/pegawai/update/${emp.id}`,
+          {
+            name_pegawai: name,
+            email: email,
+            password: password == null ? emp.real_password : password,
+            role_id: parseInt(role),
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            Swal.fire({
+              icon: "success",
+              title: "Data Berhasil Diupdate",
+            }).then(() => {
+              handleShow();
+              // refresh page
+              window.location.reload();
+            });
+          }
+        });
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
       Swal.fire({
         icon: "error",
-        title: "Error",
-        text: error.message,
+        title: error.message,
       });
     }
   };
 
   return (
     <>
-      <Button variant="outline-primary" onClick={handleShow}>
-        Tambah Pegawai
-      </Button>
+      <button className="dropdown-item" onClick={handleShow}>
+        <i className="ti-pencil-alt menu-icon me-2" />
+        Update
+      </button>
 
       <Modal show={show} onHide={handleShow} backdrop="static" keyboard={false}>
-        <Form onSubmit={createHandler}>
+        <Form onSubmit={updateHandler}>
           <Modal.Header closeButton>
             <Modal.Title>Form Input Data Pegawai dan Ustadz/ah</Modal.Title>
           </Modal.Header>
@@ -143,8 +130,8 @@ function FormInputEmployee(prop) {
             <Form.Group className="mb-3" controlId="formGridAddress2">
               <Form.Label>Job Desc</Form.Label>
               <Form.Select value={sex} onChange={(e) => setSex(e.target.value)}>
-                <option selected hidden>
-                  --- Pilih Jenis Kelamin ---
+                <option selected hidden value={1}>
+                  {emp.sex ? "Laki - Laki" : "Perempuan"}
                 </option>
                 <option value={1}>Laki - Laki</option>
                 <option value={2}>Perempuan</option>
@@ -177,8 +164,8 @@ function FormInputEmployee(prop) {
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
               >
-                <option selected hidden>
-                  --- Select Jobdesc ---
+                <option value={emp.role.id} selected hidden>
+                  {emp.role.role_name}
                 </option>
                 {roles.map((role, index) => (
                   <option key={index} value={role.id}>
@@ -200,10 +187,11 @@ function FormInputEmployee(prop) {
       </Modal>
     </>
   );
-}
-
-FormInputEmployee.propTypes = {
-  roles: PropTypes.array,
 };
 
-export default FormInputEmployee;
+UpdateFormEmployee.propTypes = {
+  emp: propTypes.object,
+  roles: propTypes.array,
+};
+
+export default UpdateFormEmployee;
