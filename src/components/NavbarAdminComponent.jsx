@@ -1,6 +1,36 @@
 import logobrand from "../assets/img/logoepermission.png";
 import "../dist/css/material.css";
-function NavbarAdminComponent() {
+
+import axios from "axios";
+import { useState, useEffect } from "react";
+import jwt_decode from "jwt-decode";
+
+const NavbarAdminComponent = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("accessToken");
+
+    const decode = jwt_decode(token);
+
+    setData(decode);
+  }, []);
+
+  const logoutHandler = async () => {
+    try {
+      await axios.delete("http://localhost:8000/v1/api/logout", {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      });
+
+      sessionStorage.removeItem("accessToken");
+      window.location.href = "/login";
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
@@ -47,127 +77,6 @@ function NavbarAdminComponent() {
           </li>
         </ul>
         <ul className="navbar-nav navbar-nav-right">
-          <li className="nav-item dropdown me-1">
-            <a
-              className="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center"
-              id="messageDropdown"
-              href="#"
-              data-bs-toggle="dropdown"
-            >
-              <i className="ti-email mx-0" />
-            </a>
-            <div
-              className="dropdown-menu dropdown-menu-right navbar-dropdown"
-              aria-labelledby="messageDropdown"
-            >
-              <p className="mb-0 font-weight-normal float-left dropdown-header">
-                Messages
-              </p>
-              <a className="dropdown-item">
-                <div className="item-thumbnail">
-                  <img
-                    src="images/faces/face4.jpg"
-                    alt="image"
-                    className="profile-pic"
-                  />
-                </div>
-                <div className="item-content flex-grow">
-                  <h6 className="ellipsis font-weight-normal">David Grey</h6>
-                  <p className="font-weight-light small-text text-muted mb-0">
-                    The meeting is cancelled
-                  </p>
-                </div>
-              </a>
-              <a className="dropdown-item">
-                <div className="item-thumbnail">
-                  <img
-                    src="images/faces/face2.jpg"
-                    alt="image"
-                    className="profile-pic"
-                  />
-                </div>
-                <div className="item-content flex-grow">
-                  <h6 className="ellipsis font-weight-normal">Tim Cook</h6>
-                  <p className="font-weight-light small-text text-muted mb-0">
-                    New product launch
-                  </p>
-                </div>
-              </a>
-              <a className="dropdown-item">
-                <div className="item-thumbnail">
-                  <img
-                    src="images/faces/face3.jpg"
-                    alt="image"
-                    className="profile-pic"
-                  />
-                </div>
-                <div className="item-content flex-grow">
-                  <h6 className="ellipsis font-weight-normal"> Johnson</h6>
-                  <p className="font-weight-light small-text text-muted mb-0">
-                    Upcoming board meeting
-                  </p>
-                </div>
-              </a>
-            </div>
-          </li>
-          <li className="nav-item dropdown">
-            <a
-              className="nav-link count-indicator dropdown-toggle"
-              id="notificationDropdown"
-              href="#"
-              data-bs-toggle="dropdown"
-            >
-              <i className="ti-bell mx-0" />
-              <span className="count" />
-            </a>
-            <div
-              className="dropdown-menu dropdown-menu-right navbar-dropdown"
-              aria-labelledby="notificationDropdown"
-            >
-              <p className="mb-0 font-weight-normal float-left dropdown-header">
-                Notifications
-              </p>
-              <a className="dropdown-item">
-                <div className="item-thumbnail">
-                  <div className="item-icon bg-success">
-                    <i className="ti-info-alt mx-0" />
-                  </div>
-                </div>
-                <div className="item-content">
-                  <h6 className="font-weight-normal">Application Error</h6>
-                  <p className="font-weight-light small-text mb-0 text-muted">
-                    Just now
-                  </p>
-                </div>
-              </a>
-              <a className="dropdown-item">
-                <div className="item-thumbnail">
-                  <div className="item-icon bg-warning">
-                    <i className="ti-settings mx-0" />
-                  </div>
-                </div>
-                <div className="item-content">
-                  <h6 className="font-weight-normal">Settings</h6>
-                  <p className="font-weight-light small-text mb-0 text-muted">
-                    Private message
-                  </p>
-                </div>
-              </a>
-              <a className="dropdown-item">
-                <div className="item-thumbnail">
-                  <div className="item-icon bg-info">
-                    <i className="ti-user mx-0" />
-                  </div>
-                </div>
-                <div className="item-content">
-                  <h6 className="font-weight-normal">New user registration</h6>
-                  <p className="font-weight-light small-text mb-0 text-muted">
-                    2 days ago
-                  </p>
-                </div>
-              </a>
-            </div>
-          </li>
           <li className="nav-item nav-profile dropdown">
             <a
               className="nav-link dropdown-toggle"
@@ -175,7 +84,8 @@ function NavbarAdminComponent() {
               data-bs-toggle="dropdown"
               id="profileDropdown"
             >
-              <img src="images/faces/face28.jpg" alt="profile" />
+              <i className="ti-user"></i>
+              Welcome, {data.name_pegawai}
             </a>
             <div
               className="dropdown-menu dropdown-menu-right navbar-dropdown"
@@ -185,7 +95,7 @@ function NavbarAdminComponent() {
                 <i className="ti-settings text-primary" />
                 Settings
               </a>
-              <button className="dropdown-item">
+              <button className="dropdown-item" onClick={logoutHandler}>
                 <i className="ti-power-off text-primary" />
                 Logout
               </button>
@@ -202,6 +112,6 @@ function NavbarAdminComponent() {
       </div>
     </nav>
   );
-}
+};
 
 export default NavbarAdminComponent;
