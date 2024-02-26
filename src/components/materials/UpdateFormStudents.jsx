@@ -58,17 +58,21 @@ const UpdateFormStudents = (props) => {
     if (!status)
       return Swal.fire({ icon: "error", title: "Status tidak boleh kososng" });
 
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("name_santri", name);
+    formData.append("sex", parseInt(sex));
+    formData.append("fathername", father);
+    formData.append("mothername", mother);
+    formData.append("id_room", parseInt(room));
+    formData.append("status", parseInt(status));
+    formData.append("role_id", 2);
+
     try {
       const res = await axios.put(
         `${serverDev}/v1/api/santri/update/${student.id}`,
         {
-          name_santri: name,
-          sex: parseInt(sex),
-          fathername: father,
-          mothername: mother,
-          id_room: parseInt(room),
-          status: parseInt(status),
-          role_id: 2,
+          formData,
         },
         {
           headers: {

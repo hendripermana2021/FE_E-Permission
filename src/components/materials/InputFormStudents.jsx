@@ -18,7 +18,6 @@ function FormInputStudent(props) {
   const [name, setName] = useState();
   const [father, setFather] = useState();
   const [mother, setMother] = useState();
-  const [status, setStatus] = useState();
   const [image, setImage] = useState(null);
 
   const handleImageChange = (e) => {
@@ -56,8 +55,6 @@ function FormInputStudent(props) {
       });
     if (!room)
       return Swal.fire({ icon: "error", title: "Ruangan tidak boleh kososng" });
-    if (!status)
-      return Swal.fire({ icon: "error", title: "Status tidak boleh kososng" });
 
     const formData = new FormData();
     formData.append("image", image);
@@ -66,7 +63,6 @@ function FormInputStudent(props) {
     formData.append("fathername", father);
     formData.append("mothername", mother);
     formData.append("id_room", parseInt(room));
-    formData.append("status", parseInt(status));
     formData.append("role_id", 2);
 
     try {
@@ -90,7 +86,6 @@ function FormInputStudent(props) {
             setName("");
             setRoom("");
             setSex("");
-            setStatus("");
             handleShow();
             // refresh page
             window.location.reload();
@@ -207,21 +202,6 @@ function FormInputStudent(props) {
                         {r.nameroom}
                       </option>
                     ))}
-                  </Form.Select>
-                </Form.Group>
-              </div>
-              <div className="col-lg-12 col-sm-12">
-                <Form.Group className="mb-3" controlId="formGridAddress2">
-                  <Form.Label>Status </Form.Label>
-                  <Form.Select
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    <option selected hidden>
-                      === Pilih Status ====
-                    </option>
-                    <option value={1}>Active</option>
-                    <option value={2}>In Active</option>
                   </Form.Select>
                 </Form.Group>
               </div>

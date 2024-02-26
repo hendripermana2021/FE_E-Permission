@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import serverDev from "../../Server";
 
-import jwt_decode from "jwt-decode";
 import Swal from "sweetalert2";
 
 import { useState } from "react";
@@ -17,30 +16,31 @@ import { useState } from "react";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const Login = async (e) => {
+    setIsSubmitting(true);
+
     e.preventDefault();
     try {
       const post = await axios.post(`${serverDev}/v1/api/login`, {
-        email: email,
-        password: password,
+        email,
+        password,
       });
       const token = post.data.accessToken;
       sessionStorage.setItem("accessToken", token);
-      const decoded = jwt_decode(token);
+      setIsSubmitting(false);
 
-      if (parseInt(decoded.role_id) === 1) {
-        Swal.fire({
-          icon: "success",
-          title: "Login Success",
-          text: "You have successfully logged in!",
-        });
-        navigate("/dashboard");
-      } else {
-        navigate("/");
-      }
+      Swal.fire({
+        icon: "success",
+        title: "Login Success",
+        text: "You have successfully logged in!",
+      });
+      navigate("/dashboard");
     } catch (error) {
+      setIsSubmitting(false);
+
       if (error.response) {
         console.log(error.response.data);
         Swal.fire({
@@ -100,7 +100,7 @@ const LoginPage = () => {
                     </div>
                     <div className="d-flex mt-2 align-items-center text-center">
                       <button className="btn btn-primary" type="submit">
-                        Sign In
+                        {isSubmitting ? "Loading..." : "Sign In"}
                       </button>
                       <button className="btn btn-danger ms-2">Cancel</button>
                     </div>

@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
+
 const StepMethod = () => {
   const [kriteria, setKriteria] = useState([]);
   const [permission, setPermission] = useState([]);
@@ -112,7 +115,34 @@ const StepMethod = () => {
       });
     }
   };
-  console.log(cpi);
+
+  const handleExportToPdf = () => {
+    if (cpi == undefined) {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "CPI not calculated yet!",
+      });
+    }
+
+    const docs = new jsPDF({ orientation: "landscape" });
+
+    const title = `HASIL PERHITUNGAN PERIZINAN SANTRI/WATI
+  MENGGUNAKAN METODE ROC (RANK ORDER CENTROID) DAN 
+  CPI (COMPOSITE PERFORMANCE INDEX)
+  `;
+    const xCoordinate = docs.internal.pageSize.width / 2;
+    const yCoordinate = 10;
+    docs.text(title, xCoordinate, yCoordinate, { align: "center" });
+
+    const tableMarginTop = 20;
+    docs.autoTable({
+      html: "#cpi-table",
+      startY: yCoordinate + tableMarginTop,
+    });
+
+    docs.save("report-cpi.pdf");
+  };
 
   return (
     <div className="container-fluid col-md-12 grid-margin stretch-card mt-4">
@@ -135,7 +165,10 @@ const StepMethod = () => {
             >
               {isCpi ? "Loading ..." : "Calculate CPI"}
             </button>
-            <button className="btn btn-secondary me-3 my-3">
+            <button
+              className="btn btn-secondary me-3 my-3"
+              onClick={handleExportToPdf}
+            >
               Generate Report
             </button>
           </div>
@@ -253,9 +286,9 @@ const StepMethod = () => {
                             {roc.length === 0 ? (
                               <p>0 %</p>
                             ) : (
-                              roc.map((r, index) => (
-                                <p key={index}>{r.weight_score * 100}%</p>
-                              ))
+                              <p key={index}>
+                                {roc[index].weight_score * 100}%
+                              </p>
                             )}
                           </td>
                         </tr>
@@ -367,7 +400,7 @@ const StepMethod = () => {
 
               <div className="table-responsive my-4">
                 <div style={{ overflowX: "auto" }}>
-                  <table className="table table-hover">
+                  <table className="table table-hover" id="cpi-table">
                     <thead>
                       <tr align="center">
                         <th>No.</th>
@@ -390,24 +423,21 @@ const StepMethod = () => {
                             <td>{cpi.step4[index]}</td>
                             <td>{cpi.step4[index] * 100} %</td>
                             <td>
-                              {
-                                // sort cpi.step4[index] from highest to lowest
-                                cpi.step4
-                                  .map((e, i) => {
-                                    return { index: i, value: e };
-                                  })
-                                  .sort((a, b) => {
-                                    if (a.value < b.value) {
-                                      return 1;
-                                    }
-                                    if (a.value > b.value) {
-                                      return -1;
-                                    }
-                                    return 0;
-                                  })
-                                  .map((e) => e.index + 1)
-                                  .indexOf(index + 1) + 1
-                              }
+                              {cpi.step4
+                                .map((e, i) => {
+                                  return { index: i, value: e };
+                                })
+                                .sort((a, b) => {
+                                  if (a.value < b.value) {
+                                    return 1;
+                                  }
+                                  if (a.value > b.value) {
+                                    return -1;
+                                  }
+                                  return 0;
+                                })
+                                .map((e) => e.index + 1)
+                                .indexOf(index + 1) + 1}
                             </td>
                           </tr>
                         ))

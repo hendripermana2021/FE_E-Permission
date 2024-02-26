@@ -37,7 +37,11 @@ const TableRooms = () => {
 
   const getRoom = async () => {
     try {
-      const res = await axios.get(`${serverDev}/v1/api/room`);
+      const res = await axios.get(`${serverDev}/v1/api/room`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      });
       setRooms(res.data.data);
       setIsLoading(false);
     } catch (error) {
@@ -47,7 +51,11 @@ const TableRooms = () => {
 
   const getEmployees = async () => {
     try {
-      const response = await axios.get(`${serverDev}/v1/api/pegawai`);
+      const response = await axios.get(`${serverDev}/v1/api/pegawai`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      });
       setEmployees(response.data.data);
     } catch (error) {
       console.error("Error fetching employee data:", error);

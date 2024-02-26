@@ -17,6 +17,7 @@ import RoomsPage from "./pages/admin/RoomsPage";
 import StudentsPage from "./pages/admin/StudentsPage";
 import SyaratKetentuanPage from "./pages/admin/SyaratKetentuanPage";
 import Testimonial from "./pages/admin/Testimonial";
+import ApprovalPage from "./pages/admin/ApprovalPage";
 
 const LayoutRoute = ({ element, ...rest }) => (
   <div>
@@ -34,6 +35,7 @@ const AdminRoutes = () => (
     <Route path="permission" element={<PermissionPage />} />
     <Route path="kriteria" element={<KriteriaPage />} />
     <Route path="cpi-calculated" element={<CalculatedPage />} />
+    <Route path="approval" element={<ApprovalPage />} />
   </Routes>
 );
 
