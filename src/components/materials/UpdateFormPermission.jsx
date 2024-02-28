@@ -111,6 +111,8 @@ const UpdateFormPermission = (props) => {
         backdrop="static"
         keyboard={false}
         size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
       >
         <Form onSubmit={updateHandler}>
           <Modal.Header closeButton>

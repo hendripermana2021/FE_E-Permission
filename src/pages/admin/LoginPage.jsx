@@ -1,9 +1,8 @@
 import { Container, Row, Col } from "react-bootstrap";
 
-import HeroImage from "../../assets/img/hero.png";
+import HeroImage from "../../assets/img/logopondok.png";
 
 import "../../dist/css/login.css";
-import { Link } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -65,7 +64,7 @@ const LoginPage = () => {
                 <div className="form_container p-5 rounded bg-white align-items-center">
                   <form onSubmit={Login}>
                     <h3 className="signin text-center">Sign In</h3>
-                    <div className="flex-column align-items-center mb-2">
+                    <div className="flex-column align-items-center mb-4">
                       <label htmlFor="email" className="form-label">
                         Email
                       </label>
@@ -98,18 +97,12 @@ const LoginPage = () => {
                         }}
                       />
                     </div>
-                    <div className="d-flex mt-2 align-items-center text-center">
+                    <div className="buttonLoginAndCancel d-flex mt-4 align-items-center text-center">
                       <button className="btn btn-primary" type="submit">
                         {isSubmitting ? "Loading..." : "Sign In"}
                       </button>
                       <button className="btn btn-danger ms-2">Cancel</button>
                     </div>
-                    <p className="text-end mt-2">
-                      Forgot <a href="">Password?</a>
-                      <Link to="/signup" className="ms-2">
-                        Sign Up
-                      </Link>
-                    </p>
                   </form>
                 </div>
               </div>

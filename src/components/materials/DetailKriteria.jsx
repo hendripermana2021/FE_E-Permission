@@ -18,9 +18,10 @@ const DetailKriteria = (props) => {
       <Modal
         show={show}
         onHide={handleShow}
-        backdrop="static"
         keyboard={false}
         size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
       >
         <Modal.Header closeButton>
           <Modal.Title>Update Data Kamar</Modal.Title>

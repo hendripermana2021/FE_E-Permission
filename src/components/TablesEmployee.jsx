@@ -119,7 +119,21 @@ const TableEmployee = () => {
                       <td>{employes.name_pegawai}</td>
                       {employes.sex ? <td>Laki-laki</td> : <td>Perempuan</td>}
                       <td>{employes.email}</td>
-                      <td>{employes.role.role_name}</td>
+                      <td>
+                        {employes.role.id == 1 ? (
+                          <span className="badge bg-primary">
+                            {employes.role.role_name}
+                          </span>
+                        ) : employes.role.id == 2 ? (
+                          <span className="badge bg-success">
+                            {employes.role.role_name}
+                          </span>
+                        ) : (
+                          <span className="badge bg-secondary">
+                            {employes.role.role_name}
+                          </span>
+                        )}
+                      </td>
                       <td>
                         <DropdownButton
                           as={ButtonGroup}

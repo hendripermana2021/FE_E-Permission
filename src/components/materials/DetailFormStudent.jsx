@@ -17,7 +17,13 @@ const DetailFormStudent = (props) => {
         Detail
       </button>
 
-      <Modal show={show} onHide={handleShow} backdrop="static" keyboard={false}>
+      <Modal
+        show={show}
+        onHide={handleShow}
+        keyboard={false}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Update Data Kamar</Modal.Title>
         </Modal.Header>
@@ -41,11 +47,15 @@ const DetailFormStudent = (props) => {
               <label htmlFor="namaustadz" className="fw-bold">
                 Nama Kamar
               </label>
-              <p>{student.nameroom.nameroom}</p>
+              <p>{student.nameroom == null ? "" : student.nameroom.nameroom}</p>
               <label htmlFor="namaustadz" className="fw-bold">
                 Email Ustadz
               </label>
-              <p>{student.nameroom.walikamar.name_pegawai}</p>
+              <p>
+                {student.nameroom == null
+                  ? ""
+                  : student.nameroom.walikamar.name_pegawai}
+              </p>
             </div>
           </div>
         </Modal.Body>

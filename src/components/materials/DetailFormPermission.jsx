@@ -20,9 +20,10 @@ const DetailFormPermission = (props) => {
       <Modal
         show={show}
         onHide={handleShow}
-        backdrop="static"
         keyboard={false}
         size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
       >
         <Modal.Header closeButton>
           <Modal.Title>Update Data Kamar</Modal.Title>
@@ -64,7 +65,7 @@ const DetailFormPermission = (props) => {
               <label htmlFor="namaustadz" className="fw-bold">
                 Score
               </label>
-              <p>{p.cpi_result} %</p>
+              <p>{p.cpi_result * 100} %</p>
             </div>
 
             <div className="col-md-4 col-sm-12">

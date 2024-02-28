@@ -103,6 +103,8 @@ const TableStudents = () => {
                 <tr>
                   <th>ID</th>
                   <th>Nama Santri/wati</th>
+                  <th>Nama Ayah</th>
+                  <th>Nama Ibu</th>
                   <th>Jenis Kelamin</th>
                   <th>Nama Ruangan</th>
                   <th>Status</th>
@@ -119,9 +121,21 @@ const TableStudents = () => {
                     <tr key={index}>
                       <td>A {index + 1}</td>
                       <td>{s.name_santri}</td>
+                      <td>{s.fathername}</td>
+                      <td>{s.mothername}</td>
                       <td>{s.sex ? "Laki - Laki" : "Perempuan"}</td>
-                      <td>{s.nameroom.nameroom}</td>
-                      <td>{s.status ? "Active" : "Non Active"}</td>
+                      <td>
+                        {s.nameroom == null
+                          ? "Room Not Found"
+                          : s.nameroom.nameroom}
+                      </td>
+                      <td>
+                        {s.status === true ? (
+                          <span className="badge bg-success">Active</span>
+                        ) : (
+                          <span className="badge bg-danger">Non-Active</span>
+                        )}
+                      </td>
                       <td>
                         <DropdownButton
                           as={ButtonGroup}

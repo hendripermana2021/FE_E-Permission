@@ -100,6 +100,8 @@ function FormInputPermission(props) {
         backdrop="static"
         keyboard={false}
         size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
       >
         <Form onSubmit={createHandler}>
           <Modal.Header closeButton>
@@ -162,7 +164,7 @@ function FormInputPermission(props) {
               </div>
               <div className="col-md-12 ">
                 {kriterias.map((k, index) => (
-                  <div className="mb-3 row" key={index}>
+                  <div className="mb-1 row" key={index}>
                     <label
                       htmlFor="inputPassword"
                       className="col-sm-4 col-form-label"
