@@ -115,7 +115,7 @@ const UpdateFormStudents = (props) => {
       >
         <Form onSubmit={updateHandler}>
           <Modal.Header closeButton>
-            <Modal.Title>Update Data Santri</Modal.Title>
+            <Modal.Title>Form Update Data Santri</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div className="row">

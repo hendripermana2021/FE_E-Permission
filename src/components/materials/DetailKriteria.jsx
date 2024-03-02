@@ -24,7 +24,7 @@ const DetailKriteria = (props) => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Update Data Kamar</Modal.Title>
+          <Modal.Title>Detail Data Kriteria</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="row container my-2">

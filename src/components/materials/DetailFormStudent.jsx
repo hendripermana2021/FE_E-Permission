@@ -25,7 +25,7 @@ const DetailFormStudent = (props) => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Update Data Kamar</Modal.Title>
+          <Modal.Title>Detail Data Kamar</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="row">

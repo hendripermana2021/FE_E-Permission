@@ -24,7 +24,7 @@ const DetailFormEmployee = (props) => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Update Data Kamar</Modal.Title>
+          <Modal.Title>Detail Data Pegawai</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="row">

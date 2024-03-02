@@ -101,7 +101,7 @@ function FormInputStudent(props) {
   return (
     <>
       <Button variant="outline-primary" onClick={handleShow}>
-        Tambah Siswa
+        Tambah Santri/wati
       </Button>
 
       <Modal

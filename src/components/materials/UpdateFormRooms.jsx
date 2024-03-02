@@ -68,7 +68,7 @@ const UpdateFormRooms = (props) => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Update Data Kamar</Modal.Title>
+          <Modal.Title>Form Update Data Kamar</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={updateHandler}>
