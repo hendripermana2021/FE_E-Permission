@@ -140,6 +140,7 @@ const ApprovalPage = () => {
                     <th>Pemberi Izin</th>
                     <th>Sampai</th>
                     <th>Status Permission</th>
+                    <th>Score</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -168,6 +169,7 @@ const ApprovalPage = () => {
                             <span className="badge bg-danger">Rejected</span>
                           )}
                         </td>
+                        <td>{(p.cpi_result * 100).toFixed(2)}%</td>
                         <td>
                           <DropdownButton
                             as={ButtonGroup}

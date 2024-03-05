@@ -38,6 +38,10 @@ function FormInputKriteria() {
       name_sub: "",
       value: "",
     },
+    {
+      name_sub: "",
+      value: "",
+    },
   ]);
 
   const [show, setShow] = useState(false);

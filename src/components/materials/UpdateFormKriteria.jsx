@@ -43,6 +43,10 @@ const UpdateFormKriteria = (props) => {
       name_sub: k.sub_kriteria[5] ? k.sub_kriteria[5].name_sub : "",
       value: k.sub_kriteria[5] ? k.sub_kriteria[5].value : "",
     },
+    {
+      name_sub: k.sub_kriteria[6] ? k.sub_kriteria[6].name_sub : "",
+      value: k.sub_kriteria[6] ? k.sub_kriteria[6].value : "",
+    },
   ]);
 
   const [show, setShow] = useState(false);

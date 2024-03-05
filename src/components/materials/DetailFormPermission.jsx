@@ -65,7 +65,7 @@ const DetailFormPermission = (props) => {
               <label htmlFor="namaustadz" className="fw-bold">
                 Score
               </label>
-              <p>{p.cpi_result * 100} %</p>
+              <p>{(p.cpi_result * 100).toFixed(2)}%</p>
             </div>
 
             <div className="col-md-4 col-sm-12">

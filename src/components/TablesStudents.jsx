@@ -22,10 +22,10 @@ const TableStudents = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!$.fn.DataTable.isDataTable("#tableStudents")) {
+    if (!$.fn.DataTable.isDataTable("#tableSantris")) {
       $(document).ready(function () {
         setTimeout(function () {
-          $("#tableStudents").DataTable();
+          $("#tableSantris").DataTable();
         }, 1000);
       });
     }
@@ -80,6 +80,7 @@ const TableStudents = () => {
           });
           Swal.fire("Deleted!", "Your data has been deleted.", "success").then(
             () => {
+              window.location.reload();
               getStudents();
             }
           );
@@ -96,9 +97,8 @@ const TableStudents = () => {
         <div className="card-body">
           <h4 className="fw-bold my-3 mb-4">TABEL DATA SANTRI/WATI</h4>
           <FormInputStudent rooms={rooms} />
-
           <div className="table-responsive mt-4">
-            <table className="table table-hover" id="tableStudents">
+            <table className="table table-hover" id="tableSantris">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -114,7 +114,9 @@ const TableStudents = () => {
               <tbody>
                 {isLoading ? (
                   <tr>
-                    <td>Loading...</td>
+                    <td colSpan="8" align="center">
+                      Loading...
+                    </td>
                   </tr>
                 ) : (
                   students.map((s, index) => (

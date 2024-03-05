@@ -73,17 +73,29 @@ function FormInputPermission(props) {
             }).then(() => {
               setIsLoading(false);
               handleClose();
-
               window.location.reload();
             });
+          } else if (res.status === 400) {
+            Swal.fire({
+              icon: "error", // Mengganti 'danger' menjadi 'error'
+              title: "Gagal", // Mengganti 'Failed' menjadi 'Gagal'
+              text: res.response.data.msg || "Terjadi kesalahan", // Menambahkan .data dan memeriksa pesan dari respons
+            }).then(() => {
+              setIsLoading(false);
+              handleClose();
+              window.location.reload();
+            });
+            console.log(res);
           }
         });
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error);
       Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: error.data.msg,
+        title: "Failed to Add Permission",
+        text: error.response.data.msg, // Pesan default jika tidak ada pesan dari respons
+      }).then(() => {
+        setIsLoading(false);
       });
     }
   };
