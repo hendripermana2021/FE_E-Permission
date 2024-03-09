@@ -111,10 +111,12 @@ const UpdateFormPermission = (props) => {
         backdrop="static"
         keyboard={false}
         size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
       >
         <Form onSubmit={updateHandler}>
           <Modal.Header closeButton>
-            <Modal.Title>Form Input Data Permission</Modal.Title>
+            <Modal.Title>Form Update Data Permission</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Group className="mb-3" controlId="formGridAddress1">

@@ -8,13 +8,16 @@ import Swal from "sweetalert2";
 function FormInputKriteria() {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
-  const [weight, setWeight] = useState("");
   const [priority, setPriority] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // make array of object state for subKriteria
   const [subKriteria, setSubKriteria] = useState([
+    {
+      name_sub: "",
+      value: "",
+    },
     {
       name_sub: "",
       value: "",
@@ -90,7 +93,6 @@ function FormInputKriteria() {
           name_kriteria: name,
           scale_priority: parseInt(priority),
           type: type,
-          weight_score: weight,
           subkriteria: filteredSubKriteria,
         },
         {
@@ -145,6 +147,8 @@ function FormInputKriteria() {
         backdrop="static"
         keyboard={false}
         size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
       >
         <Form onSubmit={createHandler}>
           <Modal.Header closeButton>
@@ -188,17 +192,7 @@ function FormInputKriteria() {
                   </Form.Select>
                 </Form.Group>
               </div>
-              <div className="col-md-6 col-sm-12 mt-2">
-                <Form.Group controlId="formGridAddress1">
-                  <Form.Label>Bobot Kriteria</Form.Label>
-                  <Form.Control
-                    placeholder="Bobot Kriteria"
-                    type="number"
-                    value={weight}
-                    onChange={(e) => setWeight(e.target.value)}
-                  />
-                </Form.Group>
-              </div>
+
               <div className="col-md-6 col-sm-12 mt-3">
                 <Form.Group controlId="formGridAddress1">
                   <Form.Label>Sub-Kriteria</Form.Label>

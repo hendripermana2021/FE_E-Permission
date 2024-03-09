@@ -16,9 +16,15 @@ const DetailFormEmployee = (props) => {
         Detail
       </button>
 
-      <Modal show={show} onHide={handleShow} backdrop="static" keyboard={false}>
+      <Modal
+        show={show}
+        onHide={handleShow}
+        keyboard={false}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
         <Modal.Header closeButton>
-          <Modal.Title>Update Data Kamar</Modal.Title>
+          <Modal.Title>Detail Data Pegawai</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="row">

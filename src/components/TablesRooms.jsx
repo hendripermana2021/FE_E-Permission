@@ -89,8 +89,6 @@ const TableRooms = () => {
           console.error("Error deleting room:", error);
           Swal.fire("Error!", error.message, "error");
         }
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire("Cancelled", "Your data is safe :)", "error");
       }
     });
   };

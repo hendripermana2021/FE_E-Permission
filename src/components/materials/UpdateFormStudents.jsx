@@ -105,10 +105,17 @@ const UpdateFormStudents = (props) => {
         Update
       </button>
 
-      <Modal show={show} onHide={handleShow} backdrop="static" keyboard={false}>
+      <Modal
+        show={show}
+        onHide={handleShow}
+        backdrop="static"
+        keyboard={false}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
         <Form onSubmit={updateHandler}>
           <Modal.Header closeButton>
-            <Modal.Title>Update Data Santri</Modal.Title>
+            <Modal.Title>Form Update Data Santri</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div className="row">

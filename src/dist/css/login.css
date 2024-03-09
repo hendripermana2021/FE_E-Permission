@@ -1,6 +1,6 @@
 .login .form_container {
   width: 70%;
-  margin-top: 10rem;
+  margin-top: 4rem;
 }
 
 .login .form_container .signin {
@@ -14,8 +14,8 @@
 }
 
 .loginpage img {
-  width: 100%;
-  margin-top: 8rem;
+  width: 70%;
+  margin-top: 4rem;
 }
 
 .login .form_container .signin .selectRegister {
@@ -28,6 +28,10 @@
 
 .loginpage .login .signin .selectRegister .namaselect {
   font-size: 29px;
+}
+
+.loginpage .login .form-container .buttonLoginAndCancel {
+  margin-top: 10px;
 }
 
 @media screen and (max-width: 1000px) {

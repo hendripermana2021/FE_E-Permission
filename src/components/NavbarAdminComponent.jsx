@@ -54,28 +54,6 @@ const NavbarAdminComponent = () => {
         >
           <span className="ti-view-list" />
         </button>
-        <ul className="navbar-nav mr-lg-2">
-          <li className="nav-item nav-search d-none d-lg-block">
-            <div className="input-group">
-              <div
-                className="input-group-prepend hover-cursor"
-                id="navbar-search-icon"
-              >
-                <span className="input-group-text" id="search">
-                  <i className="ti-search" />
-                </span>
-              </div>
-              <input
-                type="text"
-                className="form-control"
-                id="navbar-search-input"
-                placeholder="Search now"
-                aria-label="search"
-                aria-describedby="search"
-              />
-            </div>
-          </li>
-        </ul>
         <ul className="navbar-nav navbar-nav-right">
           <li className="nav-item nav-profile dropdown">
             <a

@@ -73,17 +73,29 @@ function FormInputPermission(props) {
             }).then(() => {
               setIsLoading(false);
               handleClose();
-
               window.location.reload();
             });
+          } else if (res.status === 400) {
+            Swal.fire({
+              icon: "error", // Mengganti 'danger' menjadi 'error'
+              title: "Gagal", // Mengganti 'Failed' menjadi 'Gagal'
+              text: res.response.data.msg || "Terjadi kesalahan", // Menambahkan .data dan memeriksa pesan dari respons
+            }).then(() => {
+              setIsLoading(false);
+              handleClose();
+              window.location.reload();
+            });
+            console.log(res);
           }
         });
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error);
       Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: error.data.msg,
+        title: "Failed to Add Permission",
+        text: error.response.data.msg, // Pesan default jika tidak ada pesan dari respons
+      }).then(() => {
+        setIsLoading(false);
       });
     }
   };
@@ -100,6 +112,8 @@ function FormInputPermission(props) {
         backdrop="static"
         keyboard={false}
         size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
       >
         <Form onSubmit={createHandler}>
           <Modal.Header closeButton>
@@ -162,7 +176,7 @@ function FormInputPermission(props) {
               </div>
               <div className="col-md-12 ">
                 {kriterias.map((k, index) => (
-                  <div className="mb-3 row" key={index}>
+                  <div className="mb-1 row" key={index}>
                     <label
                       htmlFor="inputPassword"
                       className="col-sm-4 col-form-label"

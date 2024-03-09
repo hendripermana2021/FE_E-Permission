@@ -37,7 +37,7 @@ const TablePermission = () => {
   const getPermission = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/v1/api/permission/all",
+        "http://localhost:8000/v1/api/permission",
         {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
@@ -123,7 +123,7 @@ const TablePermission = () => {
     <div className="container-fluid col-lg-12 col-md-12 grid-margin stretch-card mt-4">
       <div className="card">
         <div className="card-body">
-          <h4 className="fw-bold my-3 mb-4">Table Kriteria dan Sub Kriteria</h4>
+          <h4 className="fw-bold my-3 mb-4">Table Permission</h4>
           <InputFormPermission users={users} kriterias={kriteria} />
           <div className="table-responsive mt-4">
             <table className="table table-hover" id="tablePermission">
@@ -152,7 +152,15 @@ const TablePermission = () => {
                       <td>{new Date(p.start_permission).toLocaleString()}</td>
                       <td>{new Date(p.end_permission).toLocaleString()}</td>
                       <td className="text-center">
-                        {p.permission_status ? "Disetujui" : "Ditolak"}
+                        {p.permission_status === 1 ? (
+                          <span className="badge bg-success">Aktif</span>
+                        ) : p.permission_status === 2 ? (
+                          <span className="badge bg-warning">Progress</span>
+                        ) : p.permission_status === 0 ? (
+                          <span className="badge bg-danger">Tidak Aktif</span>
+                        ) : (
+                          <span className="badge bg-danger">Rejected</span>
+                        )}
                       </td>
                       <td>
                         <DropdownButton

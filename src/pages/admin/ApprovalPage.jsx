@@ -31,7 +31,7 @@ const ApprovalPage = () => {
   const getPermission = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/v1/api/permission/all",
+        "http://localhost:8000/v1/api/permission/notRejected",
         {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
@@ -108,8 +108,8 @@ const ApprovalPage = () => {
             }
           );
           Swal.fire(
-            "Rejected!",
-            "Permission has been rejected.",
+            "Confirm Santri/wati Back!",
+            "Permission has been Non Activated.",
             "success"
           ).then(() => {
             getPermission();
@@ -135,10 +135,12 @@ const ApprovalPage = () => {
               <table className="table table-hover" id="tableRooms">
                 <thead>
                   <tr>
+                    <th>ID</th>
                     <th>Nama Santri</th>
                     <th>Pemberi Izin</th>
-                    <th>Tanggal kembali</th>
-                    <th>Status</th>
+                    <th>Sampai</th>
+                    <th>Status Permission</th>
+                    <th>Score</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -153,15 +155,21 @@ const ApprovalPage = () => {
                     permission.map((p, index) => (
                       <tr key={index}>
                         <td>P {index + 1}</td>
+                        <td>{p.namasantri.name_santri}</td>
                         <td>{p.created_permission.name_pegawai}</td>
                         <td>{new Date(p.end_permission).toLocaleString()}</td>
                         <td>
-                          {p.permission_status ? (
+                          {p.permission_status === 1 ? (
                             <span className="badge bg-success">Aktif</span>
-                          ) : (
+                          ) : p.permission_status === 2 ? (
+                            <span className="badge bg-warning">Progress</span>
+                          ) : p.permission_status === 0 ? (
                             <span className="badge bg-danger">Tidak Aktif</span>
+                          ) : (
+                            <span className="badge bg-danger">Rejected</span>
                           )}
                         </td>
+                        <td>{(p.cpi_result * 100).toFixed(2)}%</td>
                         <td>
                           <DropdownButton
                             as={ButtonGroup}
@@ -177,7 +185,7 @@ const ApprovalPage = () => {
                               onClick={() => approveHandler(p)}
                             >
                               <i className="ti-check menu-icon me-2" />
-                              Aktif
+                              Confirm
                             </button>
 
                             <button
@@ -185,7 +193,7 @@ const ApprovalPage = () => {
                               onClick={() => rejectHandler(p)}
                             >
                               <i className="ti-close menu-icon me-2" />
-                              Tidak Aktif
+                              Back
                             </button>
                           </DropdownButton>
                         </td>

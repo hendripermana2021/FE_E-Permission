@@ -68,9 +68,18 @@ function FormInputRooms(props) {
         Tambah Ruangan
       </Button>
 
-      <Modal show={show} onHide={handleShow} backdrop="static" keyboard={false}>
+      <Modal
+        show={show}
+        onHide={handleShow}
+        backdrop="static"
+        keyboard={false}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
         <Modal.Header closeButton>
-          <Modal.Title>Input Data Kamar</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Input Data Kamar
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={submitRoom}>

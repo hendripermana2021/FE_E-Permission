@@ -43,6 +43,10 @@ const UpdateFormKriteria = (props) => {
       name_sub: k.sub_kriteria[5] ? k.sub_kriteria[5].name_sub : "",
       value: k.sub_kriteria[5] ? k.sub_kriteria[5].value : "",
     },
+    {
+      name_sub: k.sub_kriteria[6] ? k.sub_kriteria[6].name_sub : "",
+      value: k.sub_kriteria[6] ? k.sub_kriteria[6].value : "",
+    },
   ]);
 
   const [show, setShow] = useState(false);
@@ -136,13 +140,14 @@ const UpdateFormKriteria = (props) => {
       <Modal
         show={show}
         onHide={handleShow}
-        backdrop="static"
         keyboard={false}
         size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
       >
         <Form onSubmit={updateHandler}>
           <Modal.Header closeButton>
-            <Modal.Title>Form Input Data Kriteria</Modal.Title>
+            <Modal.Title>Form Update Data Kriteria</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div className="row">
@@ -180,17 +185,6 @@ const UpdateFormKriteria = (props) => {
                     <option value={1}>Benefit</option>
                     <option value={0}>Cost</option>
                   </Form.Select>
-                </Form.Group>
-              </div>
-              <div className="col-md-6 col-sm-12 mt-2">
-                <Form.Group controlId="formGridAddress1">
-                  <Form.Label>Bobot Kriteria</Form.Label>
-                  <Form.Control
-                    placeholder="Bobot Kriteria"
-                    type="number"
-                    value={weight}
-                    onChange={(e) => setWeight(e.target.value)}
-                  />
                 </Form.Group>
               </div>
               <div className="col-md-6 col-sm-12 mt-3">

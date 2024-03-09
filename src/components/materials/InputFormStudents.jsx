@@ -101,10 +101,17 @@ function FormInputStudent(props) {
   return (
     <>
       <Button variant="outline-primary" onClick={handleShow}>
-        Tambah Siswa
+        Tambah Santri/wati
       </Button>
 
-      <Modal show={show} onHide={handleShow} backdrop="static" keyboard={false}>
+      <Modal
+        show={show}
+        onHide={handleShow}
+        backdrop="static"
+        keyboard={false}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Input Data Santri</Modal.Title>
         </Modal.Header>

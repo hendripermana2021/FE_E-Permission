@@ -117,7 +117,14 @@ function FormInputEmployee(prop) {
         Tambah Pegawai
       </Button>
 
-      <Modal show={show} onHide={handleShow} backdrop="static" keyboard={false}>
+      <Modal
+        show={show}
+        onHide={handleShow}
+        backdrop="static"
+        keyboard={false}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
         <Form onSubmit={createHandler}>
           <Modal.Header closeButton>
             <Modal.Title>Form Input Data Pegawai dan Ustadz/ah</Modal.Title>

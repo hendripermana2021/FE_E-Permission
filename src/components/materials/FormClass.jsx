@@ -83,6 +83,8 @@ function FormClass() {
         onHide={handleClose}
         backdrop="static"
         keyboard={false}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
       >
         <Modal.Header closeButton>
           <Modal.Title>Tambah Siswa</Modal.Title>

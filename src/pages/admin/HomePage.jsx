@@ -1,5 +1,5 @@
 import { Container, Row, Col } from "react-bootstrap";
-import HeroImage from "../../assets/img/hero.png";
+import HeroImage from "../../assets/img/logopondok.png";
 import { Link } from "react-router-dom";
 import "../../dist/css/main.css";
 
@@ -29,7 +29,7 @@ const HomePage = () => {
                 Register
               </button>
             </Col>
-            <Col lg="6" className="pt-lg-0 pt-5">
+            <Col lg="6" className="pt-lg-0 pt-3">
               <img src={HeroImage} alt="hero-img" />
             </Col>
           </Row>

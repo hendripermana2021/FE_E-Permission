@@ -111,7 +111,7 @@ const DashboardPage = () => {
               <div className="col-md-3 grid-margin stretch-card">
                 <div className="card">
                   <div className="card-body">
-                    <h4 className="card-title">Santri Belum Pulang</h4>
+                    <h4 className="card-title">Santri Aktif</h4>
                     <p style={{ fontSize: "40px", marginTop: "20px" }}>
                       {data.santriActive}
                     </p>
@@ -122,7 +122,7 @@ const DashboardPage = () => {
               <div className="col-md-3 grid-margin stretch-card">
                 <div className="card">
                   <div className="card-body">
-                    <h4 className="card-title">Santri Pulang</h4>
+                    <h4 className="card-title">Santri Non Aktif</h4>
                     <p style={{ fontSize: "40px", marginTop: "20px" }}>
                       {data.santriNonActive}
                     </p>
