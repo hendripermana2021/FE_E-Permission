@@ -24,6 +24,15 @@ const DetailFormStudent = (props) => {
         <Modal.Body>
           <div className="row">
             <div className="col-md-6 col-sm-12">
+              {/* show image */}
+              <img
+                src={student.image != null ? student.image : "/images/user.png"}
+                alt="Student Image"
+                style={{ maxWidth: "100%" }}
+                className="img-fluid rounded-circle"
+              />
+            </div>
+            <div className="col-md-6 col-sm-12">
               <label htmlFor="studentname" className="fw-bold">
                 Nama Santri
               </label>
