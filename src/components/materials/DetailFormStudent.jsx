@@ -29,16 +29,16 @@ const DetailFormStudent = (props) => {
         </Modal.Header>
         <Modal.Body>
           <div className="row">
-            <div className="col-md-6 col-sm-12">
+            <div className="col-md-4 col-sm-12">
               {/* show image */}
               <img
-                src={student.image != null ? student.image : "/images/user.png"}
+                src={student.image}
                 alt="Student Image"
                 style={{ maxWidth: "100%" }}
                 className="img-fluid rounded-circle"
               />
             </div>
-            <div className="col-md-6 col-sm-12">
+            <div className="col-md-4 col-sm-12">
               <label htmlFor="studentname" className="fw-bold">
                 Nama Santri
               </label>
@@ -52,7 +52,7 @@ const DetailFormStudent = (props) => {
               </label>
               <p>{student.mothername}</p>
             </div>
-            <div className="col-md-6 col-sm-12">
+            <div className="col-md-4 col-sm-12">
               <label htmlFor="namaustadz" className="fw-bold">
                 Nama Kamar
               </label>
