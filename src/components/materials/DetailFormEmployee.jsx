@@ -46,7 +46,17 @@ const DetailFormEmployee = (props) => {
               <label htmlFor="namaustadz" className="fw-bold">
                 Job Description
               </label>
-              <p>{emp.role.role_name}</p>
+              <p>
+                {emp.role.id == 1 ? (
+                  <span className="badge bg-primary">{emp.role.role_name}</span>
+                ) : emp.role.id == 2 ? (
+                  <span className="badge bg-success">{emp.role.role_name}</span>
+                ) : (
+                  <span className="badge bg-secondary">
+                    {emp.role.role_name}
+                  </span>
+                )}
+              </p>
             </div>
           </div>
         </Modal.Body>

@@ -34,7 +34,7 @@ const DetailFormStudent = (props) => {
               <img
                 src={student.image != null ? student.image : "/images/user.png"}
                 alt="Student Image"
-                style={{ maxWidth: "100%" }}
+                style={{ maxWidth: "70%" }}
                 className="img-fluid rounded-circle"
               />
             </div>
@@ -51,8 +51,6 @@ const DetailFormStudent = (props) => {
                 Nama Ibu
               </label>
               <p>{student.mothername}</p>
-            </div>
-            <div className="col-md-6 col-sm-12">
               <label htmlFor="namaustadz" className="fw-bold">
                 Nama Kamar
               </label>

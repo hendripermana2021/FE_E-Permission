@@ -125,7 +125,7 @@ function FormInputStudent(props) {
                       <div>
                         <img
                           src={URL.createObjectURL(image)}
-                          alt="Selected"
+                          alt="Student Image"
                           style={{ maxWidth: "100%" }}
                           className="img-fluid rounded-circle"
                         />
@@ -168,7 +168,7 @@ function FormInputStudent(props) {
                       === Pilih Jenis Kelamin ====
                     </option>
                     <option value={1}>Laki - Laki</option>
-                    <option value={2}>Perempuan</option>
+                    <option value={0}>Perempuan</option>
                   </Form.Select>
                 </Form.Group>
               </div>

@@ -148,7 +148,7 @@ function FormInputEmployee(prop) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formGridAddress2">
-              <Form.Label>Job Desc</Form.Label>
+              <Form.Label>Jenis Kelamin</Form.Label>
               <Form.Select value={sex} onChange={(e) => setSex(e.target.value)}>
                 <option selected hidden>
                   --- Pilih Jenis Kelamin ---
