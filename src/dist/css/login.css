@@ -1,6 +1,7 @@
 .login .form_container {
   width: 70%;
   margin-top: 4rem;
+  box-shadow: 4px 8px 9px -2px #181818;
 }
 
 .login .form_container .signin {

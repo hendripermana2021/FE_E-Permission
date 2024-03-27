@@ -22,7 +22,6 @@ const UpdateFormStudents = (props) => {
   const [name, setName] = useState(student.name_santri);
   const [father, setFather] = useState(student.fathername);
   const [mother, setMother] = useState(student.mothername);
-  const [status, setStatus] = useState(student.status ? 1 : 2);
 
   const [image, setImage] = useState(null);
 
@@ -55,8 +54,6 @@ const UpdateFormStudents = (props) => {
       });
     if (!room)
       return Swal.fire({ icon: "error", title: "Ruangan tidak boleh kososng" });
-    if (!status)
-      return Swal.fire({ icon: "error", title: "Status tidak boleh kososng" });
 
     const formData = new FormData();
     formData.append("image", image);
@@ -65,15 +62,12 @@ const UpdateFormStudents = (props) => {
     formData.append("fathername", father);
     formData.append("mothername", mother);
     formData.append("id_room", parseInt(room));
-    formData.append("status", parseInt(status));
     formData.append("role_id", 2);
 
     try {
       const res = await axios.put(
         `${serverDev}/v1/api/santri/update/${student.id}`,
-        {
-          formData,
-        },
+        formData,
         {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
@@ -210,25 +204,6 @@ const UpdateFormStudents = (props) => {
                         {r.nameroom}
                       </option>
                     ))}
-                  </Form.Select>
-                </Form.Group>
-              </div>
-              <div className="col-lg-12 col-sm-12">
-                <Form.Group className="mb-3" controlId="formGridAddress2">
-                  <Form.Label>Status </Form.Label>
-                  <Form.Select
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    <option
-                      selected
-                      hidden
-                      value={student.status ? 1 : undefined}
-                    >
-                      {student.status ? "Active" : "In Active"}
-                    </option>
-                    <option value={1}>Active</option>
-                    <option value={2}>In Active</option>
                   </Form.Select>
                 </Form.Group>
               </div>

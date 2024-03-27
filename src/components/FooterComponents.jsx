@@ -1,12 +1,13 @@
-import "../dist/css/admindashboard.css";
-function FooterComponents() {
+function FooterComponent() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="footer">
-      <div className="d-sm-flex justify-content-center justify-content-sm-between">
-        <span className="text-muted text-center text-sm-left d-block d-sm-inline-block">
-          Copyright © Hendri_Permana 2024
+    <footer className="footer col-lg-12 col-md-12 flex-row">
+      <div className="d-flex justify-content-center justify-content-sm-between align-items-center">
+        <span className="text-muted text-center d-block d-sm-inline-block">
+          &copy; Hendri_Permana {currentYear}
         </span>
-        <span className="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
+        <span className="text-muted text-center d-block d-sm-inline-block">
           Powered by BOOTSTRAP
         </span>
       </div>
@@ -14,4 +15,4 @@ function FooterComponents() {
   );
 }
 
-export default FooterComponents;
+export default FooterComponent;

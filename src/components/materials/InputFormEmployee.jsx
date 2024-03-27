@@ -96,9 +96,6 @@ function FormInputEmployee(prop) {
           setRole("");
           setSex("");
           handleShow();
-
-          // refresh page
-          window.location.reload();
         });
       }
     } catch (error) {
@@ -141,7 +138,8 @@ function FormInputEmployee(prop) {
             <Form.Group className="mb-3" controlId="formGridAddress1">
               <Form.Label>Email</Form.Label>
               <Form.Control
-                placeholder="Email "
+                placeholder="Email"
+                type="email" // Add this line to specify the input type as email
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />

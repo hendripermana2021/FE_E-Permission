@@ -87,8 +87,6 @@ function FormInputStudent(props) {
             setRoom("");
             setSex("");
             handleShow();
-            // refresh page
-            window.location.reload();
           }
         );
       }

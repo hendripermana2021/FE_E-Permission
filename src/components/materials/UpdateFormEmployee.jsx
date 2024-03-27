@@ -83,8 +83,6 @@ const UpdateFormEmployee = (props) => {
               title: "Data Berhasil Diupdate",
             }).then(() => {
               handleShow();
-              // refresh page
-              window.location.reload();
             });
           }
         });
@@ -135,7 +133,7 @@ const UpdateFormEmployee = (props) => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formGridAddress2">
-              <Form.Label>Job Desc</Form.Label>
+              <Form.Label>Jenis Kelamin</Form.Label>
               <Form.Select value={sex} onChange={(e) => setSex(e.target.value)}>
                 <option selected hidden value={1}>
                   {emp.sex ? "Laki - Laki" : "Perempuan"}

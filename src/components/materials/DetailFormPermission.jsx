@@ -7,6 +7,11 @@ import propTypes from "prop-types";
 const DetailFormPermission = (props) => {
   const p = props.permission;
 
+  const [zoomed, setZoomed] = useState(false);
+
+  const handleImageClick = () => {
+    setZoomed(!zoomed);
+  };
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
 
@@ -30,7 +35,20 @@ const DetailFormPermission = (props) => {
         </Modal.Header>
         <Modal.Body>
           <div className="row">
-            <div className="col-md-4 col-sm-12">
+            <div className="image-container col-md-3 col-sm-12">
+              <img
+                src={
+                  p.namasantri.image != null
+                    ? p.namasantri.image
+                    : "/images/user.png"
+                }
+                alt="Student Image"
+                style={{ maxWidth: "70%", cursor: "pointer" }}
+                className={`img-fluid rounded-circle ${zoomed ? "zoomed" : ""}`}
+                onClick={handleImageClick}
+              />
+            </div>
+            <div className="col-md-3 col-sm-12">
               <label htmlFor="nameroom" className="fw-bold">
                 Tanggal Perizinan
               </label>
@@ -43,21 +61,22 @@ const DetailFormPermission = (props) => {
                 Alasan Perizinan
               </label>
               <p>{p.commented}</p>
-
-              <label htmlFor="namaustadz" className="fw-bold">
-                Val Perizinan
-              </label>
-              <p>{p.val_go_by}</p>
-              <label htmlFor="namaustadz" className="fw-bold">
-                Val Kembali
-              </label>
-              <p>{p.val_back_by}</p>
             </div>
-            <div className="col-md-4 col-sm-12">
+            <div className="col-md-3 col-sm-12">
               <label htmlFor="namaustadz" className="fw-bold">
                 Status Perizinan
               </label>
-              <p>{p.permission_status ? "Disetujui" : "Ditolak"}</p>
+              <p>
+                {p.permission_status === 1 ? (
+                  <span className="badge bg-success">Aktif</span>
+                ) : p.permission_status === 2 ? (
+                  <span className="badge bg-warning">Progress</span>
+                ) : p.permission_status === 0 ? (
+                  <span className="badge bg-danger">Tidak Aktif</span>
+                ) : (
+                  <span className="badge bg-danger">Rejected</span>
+                )}
+              </p>
               <label htmlFor="namaustadz" className="fw-bold">
                 Perizinan Diajukan Oleh
               </label>
@@ -67,8 +86,7 @@ const DetailFormPermission = (props) => {
               </label>
               <p>{(p.cpi_result * 100).toFixed(2)}%</p>
             </div>
-
-            <div className="col-md-4 col-sm-12">
+            <div className="col-md-3 col-sm-12">
               <label htmlFor="namaustadz" className="fw-bold">
                 Nama Santri
               </label>

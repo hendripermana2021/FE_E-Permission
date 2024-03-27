@@ -111,7 +111,6 @@ function FormInputKriteria() {
           text: "Data Kriteria berhasil ditambahkan",
         }).then(() => {
           handleShow();
-          window.location.reload();
         });
       } else {
         setIsSubmitting(false);

@@ -145,7 +145,7 @@ const StepMethod = () => {
   };
 
   return (
-    <div className="container-fluid col-md-12 grid-margin stretch-card mt-4">
+    <div className="container-fluid col-md-12 grid-margin stretch-card mt-4 ms-2">
       <div className="card">
         <div className="card-body">
           <h4 className="fw-bold my-3 mb-4 text-center">
@@ -419,26 +419,17 @@ const StepMethod = () => {
                         permission.map((p, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{p.namasantri.name_santri}</td>
-                            <td>{cpi.step4[index]}</td>
-                            <td>{cpi.step4[index] * 100} %</td>
                             <td>
-                              {cpi.step4
-                                .map((e, i) => {
-                                  return { index: i, value: e };
-                                })
-                                .sort((a, b) => {
-                                  if (a.value < b.value) {
-                                    return 1;
-                                  }
-                                  if (a.value > b.value) {
-                                    return -1;
-                                  }
-                                  return 0;
-                                })
-                                .map((e) => e.index + 1)
-                                .indexOf(index + 1) + 1}
+                              {cpi.sortfill[index].namasantri.name_santri}
                             </td>
+                            <td>{cpi.sortfill[index].cpi_result.toFixed(2)}</td>
+                            <td>
+                              {(cpi.sortfill[index].cpi_result * 100).toFixed(
+                                2
+                              )}
+                              %
+                            </td>
+                            <td>{index + 1}</td>
                           </tr>
                         ))
                       )}

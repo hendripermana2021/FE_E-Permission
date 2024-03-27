@@ -94,62 +94,65 @@ const TableRooms = () => {
   };
 
   return (
-    <div className="container-fluid col-lg-12 grid-margin stretch-card mt-4">
-      <div className="card">
+    <div className="container-fluid table-room col-lg-12 col-sm-12 col-md-12 mt-4 ms-2">
+      <div className="card table-room">
         <div className="card-body">
-          <h3 className="fw-bold my-3 mb-4">Tabel Kamar Santri/wati</h3>
+          <h4 className="fw-bold my-3 mb-4">Tabel Kamar Santri/wati</h4>
           <FormInputRooms emp={employees} />
 
-          <div className="table-responsive mt-4">
-            <table className="table table-hover" id="tableRooms">
-              <thead>
-                <tr>
-                  <th>Id Ruangan</th>
-                  <th>Nama Ruangan</th>
-                  <th>Nama Ustadz</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {isLoading ? (
+          <div className="table-responsive overflow-x-auto mt-4">
+            <div className="table-scroll-x">
+              <table className="table table-hover" id="tableRooms">
+                <thead>
                   <tr>
-                    <td colSpan="4" className="text-center">
-                      Loading...
-                    </td>
+                    <th>Id Ruangan</th>
+                    <th>Nama Ruangan</th>
+                    <th>Nama Ustadz</th>
+                    <th>Action</th>
                   </tr>
-                ) : (
-                  rooms.map((r, index) => (
-                    <tr key={index}>
-                      <td>R {index + 1}</td>
-                      <td>{r.nameroom}</td>
-                      <td>
-                        {/* If name_pegawai is null */}
-                        {r.namaustadz ? r.namaustadz.name_pegawai : "No Ustadz"}
-                      </td>
-                      <td>
-                        <DropdownButton
-                          as={ButtonGroup}
-                          key="end"
-                          id="dropdown-button-drop-end"
-                          drop="end"
-                          variant="secondary"
-                        >
-                          <DetailFormRoom room={r} />
-                          <UpdateFormRooms room={r} emp={employees} />
-                          <button
-                            className="dropdown-item"
-                            onClick={() => deleteHandler(r)}
-                          >
-                            <i className="ti-trash menu-icon me-2" />
-                            Delete
-                          </button>
-                        </DropdownButton>
+                </thead>
+                <tbody>
+                  {isLoading ? (
+                    <tr>
+                      <td colSpan="4" className="text-center">
+                        Loading...
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    rooms.map((r, index) => (
+                      <tr key={index}>
+                        <td>R {index + 1}</td>
+                        <td>{r.nameroom}</td>
+                        <td>
+                          {r.namaustadz
+                            ? r.namaustadz.name_pegawai
+                            : "No Ustadz"}
+                        </td>
+                        <td>
+                          <DropdownButton
+                            as={ButtonGroup}
+                            key="end"
+                            id="dropdown-button-drop-end"
+                            drop="end"
+                            variant="secondary"
+                          >
+                            <DetailFormRoom room={r} />
+                            <UpdateFormRooms room={r} emp={employees} />
+                            <button
+                              className="dropdown-item"
+                              onClick={() => deleteHandler(r)}
+                            >
+                              <i className="ti-trash menu-icon me-2" />
+                              Delete
+                            </button>
+                          </DropdownButton>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

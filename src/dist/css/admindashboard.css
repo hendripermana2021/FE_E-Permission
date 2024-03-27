@@ -58,6 +58,7 @@
 /* === Import template variables === */
 /*-------------------------------------------------------------------*/
 /* === SCSS Compass Functions === */
+
 @-moz-keyframes flash {
   0% {
     opacity: 1;
@@ -128,6 +129,17 @@
   100% {
     opacity: 1;
   }
+}
+.image-container {
+  text-align: center;
+}
+
+.image-container img {
+  transition: transform 0.5s ease;
+}
+
+.image-container img.zoomed {
+  transform: scale(2); /* You can adjust the scale factor for zooming */
 }
 
 @keyframes flash {
@@ -20310,30 +20322,10 @@ code {
   border-radius: 4px;
 }
 
-/* Footer */
-.footer {
-  background: #dddce1;
-  color: color(dark);
-  padding: 30px 2.45rem;
-  transition: all 0.25s ease;
-  -moz-transition: all 0.25s ease;
-  -webkit-transition: all 0.25s ease;
-  -ms-transition: all 0.25s ease;
-  font-size: calc(0.875rem - 0.05rem);
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.footer a {
-  color: #248afd;
-  font-size: inherit;
-}
-
 @media (max-width: 991px) {
   .footer {
     margin-left: 0;
-    width: 100%;
+    width: 102%;
   }
 }
 
@@ -23417,6 +23409,3 @@ dl li {
 
 /*# sourceMappingURL=maps/style.css.map */
 /* Source CSS EDITED by ME */
-.sidebaradmin {
-  margin-top: 3em;
-}

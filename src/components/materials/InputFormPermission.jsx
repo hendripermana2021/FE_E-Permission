@@ -73,7 +73,6 @@ function FormInputPermission(props) {
             }).then(() => {
               setIsLoading(false);
               handleClose();
-              window.location.reload();
             });
           } else if (res.status === 400) {
             Swal.fire({
@@ -83,7 +82,6 @@ function FormInputPermission(props) {
             }).then(() => {
               setIsLoading(false);
               handleClose();
-              window.location.reload();
             });
             console.log(res);
           }

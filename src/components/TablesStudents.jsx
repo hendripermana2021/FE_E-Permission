@@ -14,6 +14,7 @@ import serverDev from "../Server";
 import Swal from "sweetalert2";
 import UpdateFormStudents from "./materials/UpdateFormStudents";
 import DetailFormStudent from "./materials/DetailFormStudent";
+import Spinner from "react-bootstrap/Spinner";
 
 const TableStudents = () => {
   const [students, setStudents] = useState([]);
@@ -32,7 +33,7 @@ const TableStudents = () => {
 
     getStudents();
     getRooms();
-  }, [students]);
+  }, []);
 
   const getStudents = async () => {
     try {
@@ -80,7 +81,6 @@ const TableStudents = () => {
           });
           Swal.fire("Deleted!", "Your data has been deleted.", "success").then(
             () => {
-              window.location.reload();
               getStudents();
             }
           );
@@ -92,13 +92,13 @@ const TableStudents = () => {
   };
 
   return (
-    <section className="container-fluid col-lg-12 grid-margin stretch-card mt-4">
-      <div className="card">
+    <section className="container-fluid col-lg-12 col-sm-12 col-md-12 mt-4 ms-2">
+      <div className="card ">
         <div className="card-body">
           <h4 className="fw-bold my-3 mb-4">TABEL DATA SANTRI/WATI</h4>
           <FormInputStudent rooms={rooms} />
-          <div className="table-responsive mt-4">
-            <table className="table table-hover" id="tableSantris">
+          <div className="table-responsive  overflow-x-auto mt-4">
+            <table className="table table-hover " id="tableSantris">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -113,11 +113,9 @@ const TableStudents = () => {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <tr>
-                    <td colSpan="8" align="center">
-                      Loading...
-                    </td>
-                  </tr>
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
                 ) : (
                   students.map((s, index) => (
                     <tr key={index}>

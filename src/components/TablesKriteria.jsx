@@ -28,7 +28,7 @@ const TableKriteria = () => {
     }
 
     getKriteria();
-  }, []);
+  }, [kriteria]);
 
   const getKriteria = async () => {
     try {
@@ -80,7 +80,7 @@ const TableKriteria = () => {
     });
   };
   return (
-    <div className="container-fluid col-lg-12 grid-margin stretch-card mt-4">
+    <div className="container-fluid col-lg-12 col-sm-12 col-md-12 grid-margin stretch-card mt-4 ms-2">
       <div className="card">
         <div className="card-body">
           <h4 className="fw-bold my-3 mb-4">Table Kriteria dan Sub Kriteria</h4>

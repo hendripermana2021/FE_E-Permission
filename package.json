@@ -30,6 +30,7 @@
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "jwt-decode": "^3.1.2",
+    "ka-table": "^8.9.0",
     "mdb-react-ui-kit": "^6.3.0",
     "or": "^0.2.0",
     "perfect-scrollbar": "^1.5.5",

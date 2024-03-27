@@ -6,6 +6,8 @@ import "datatables.net-dt/js/dataTables.dataTables";
 import $ from "jquery";
 import "jquery/dist/jquery.min.js";
 
+import serverDev from "../Server";
+
 import InputFormEmployee from "./materials/InputFormEmployee";
 import UpdateFormEmployee from "./materials/UpdateFormEmployee";
 
@@ -31,7 +33,7 @@ const TableEmployee = () => {
 
     getEmployee();
     getRoles();
-  }, []);
+  }, [employee]);
 
   const getEmployee = async () => {
     try {
@@ -61,7 +63,7 @@ const TableEmployee = () => {
     }
   };
 
-  const deleteHandler = (employes) => {
+  const deleteHandler = async (employes) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -74,15 +76,20 @@ const TableEmployee = () => {
       if (result.isConfirmed) {
         try {
           await axios
-            .delete(
-              `http://localhost:8000/v1/api/pegawai/delete/${employes.id}`
-            )
+            .delete(`${serverDev}/v1/api/pegawai/delete/${employes.id}`, {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem(
+                  "accessToken"
+                )}`,
+              },
+            })
             .then(() => {
               Swal.fire("Deleted!", "Your file has been deleted.", "success");
               getEmployee();
             });
         } catch (error) {
           console.error("Error deleting room data:", error);
+          console.log(employes.id);
           Swal.fire("Error!", "Your file has not been deleted.", "error");
         }
       }
@@ -90,7 +97,7 @@ const TableEmployee = () => {
   };
 
   return (
-    <div className="col-lg-12 grid-margin stretch-card mt-4">
+    <div className="container-fluid col-lg-12 col-sm-12 col-md-12 mt-4 ms-2">
       <div className="card">
         <div className="card-body">
           <h4 className="fw-bold my-3 mb-4">Table Pegawai dan Ustadz</h4>

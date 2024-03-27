@@ -11,7 +11,6 @@ const UpdateFormKriteria = (props) => {
 
   const [name, setName] = useState(k.name_kriteria);
   const [type, setType] = useState(k.type);
-  const [weight, setWeight] = useState(k.weight_score);
   const [priority, setPriority] = useState(k.scale_priority);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -76,7 +75,7 @@ const UpdateFormKriteria = (props) => {
     setIsSubmitting(true);
 
     // form validation
-    if (name === "" || type === "" || weight === "" || priority === "") {
+    if (name === "" || type === "" || priority === "") {
       return Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -97,7 +96,6 @@ const UpdateFormKriteria = (props) => {
             name_kriteria: name,
             scale_priority: parseInt(priority),
             type: type,
-            weight_score: weight,
             subkriteria: filteredSubKriteria,
           },
           {
@@ -115,7 +113,6 @@ const UpdateFormKriteria = (props) => {
               setIsSubmitting(false);
 
               handleShow();
-              window.location.reload();
             });
           }
         });

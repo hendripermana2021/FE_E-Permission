@@ -31,7 +31,7 @@ const ApprovalPage = () => {
   const getPermission = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/v1/api/permission/notRejected",
+        "http://localhost:8000/v1/api/approval",
         {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
@@ -124,12 +124,12 @@ const ApprovalPage = () => {
 
   return (
     <Layout>
-      <div className="container-fluid col-lg-12 grid-margin stretch-card mt-4">
-        <div className="card">
+      <div className="container-fluid col-lg-12 col-md-12 grid-margin stretch-card mt-4 ms-2">
+        <div className="card col-lg-12 col-md-12">
           <div className="card-body">
-            <h3 className="fw-bold my-3 mb-4">
+            <h4 className="fw-bold my-3 mb-4">
               Tabel Validasi Izin dan Kembali Santri/Wati
-            </h3>
+            </h4>
 
             <div className="table-responsive mt-4">
               <table className="table table-hover" id="tableRooms">

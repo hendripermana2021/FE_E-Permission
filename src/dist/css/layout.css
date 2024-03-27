@@ -1,0 +1,61 @@
+@media (max-width: 662px) {
+  .container-scroller .container-fluid .layout1 {
+    width: 420px !important;
+    height: 100% !important;
+  }
+
+  .container-scroller .container-fluid .layout1 .table-room {
+    width: 80% !important;
+    height: 100% !important;
+  }
+  .footer {
+    padding: 10px; /* Adjust padding as needed */
+    text-align: center;
+    width: 105% !important;
+  }
+
+  .offcanvas-body {
+    width: 100%;
+  }
+
+  .offcanvas.offcanvas-end {
+    width: 15em !important;
+  }
+}
+
+/* Table ROOM */
+.container-fluid .content {
+  margin-top: 3em;
+  height: 100% !important;
+  margin-bottom: 2em;
+  width: 100%;
+}
+
+.sidebaradmin {
+  margin-top: 3em;
+}
+
+.sidebar {
+  height: 100% !important;
+}
+
+.footer {
+  padding: 20px; /* Adjust padding as needed */
+  text-align: center;
+  width: 102%;
+  background: #9a999e;
+  color: color(dark);
+  transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  -webkit-transition: all 0.25s ease;
+  -ms-transition: all 0.25s ease;
+  font-size: calc(0.875rem - 0.05rem);
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.footer a {
+  color: #248afd;
+  font-size: inherit;
+}

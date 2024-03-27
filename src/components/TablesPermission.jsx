@@ -21,6 +21,11 @@ const TablePermission = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    getSantri();
+    getKriteria();
+  }, []);
+
+  useEffect(() => {
     if (!$.fn.DataTable.isDataTable("#tablePermission")) {
       $(document).ready(function () {
         setTimeout(function () {
@@ -30,9 +35,7 @@ const TablePermission = () => {
     }
 
     getPermission();
-    getSantri();
-    getKriteria();
-  }, []);
+  });
 
   const getPermission = async () => {
     try {
@@ -120,7 +123,7 @@ const TablePermission = () => {
   };
 
   return (
-    <div className="container-fluid col-lg-12 col-md-12 grid-margin stretch-card mt-4">
+    <div className="container-fluid col-lg-12 col-sm-12 col-md-12 grid-margin stretch-card mt-4 ms-2">
       <div className="card">
         <div className="card-body">
           <h4 className="fw-bold my-3 mb-4">Table Permission</h4>

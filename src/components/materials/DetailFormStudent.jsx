@@ -9,6 +9,11 @@ const DetailFormStudent = (props) => {
 
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
+  const [zoomed, setZoomed] = useState(false);
+
+  const handleImageClick = () => {
+    setZoomed(!zoomed);
+  };
 
   return (
     <>
@@ -29,13 +34,14 @@ const DetailFormStudent = (props) => {
         </Modal.Header>
         <Modal.Body>
           <div className="row">
-            <div className="col-md-6 col-sm-12">
+            <div className="image-container col-md-6 col-sm-12">
               {/* show image */}
               <img
                 src={student.image != null ? student.image : "/images/user.png"}
                 alt="Student Image"
-                style={{ maxWidth: "70%" }}
-                className="img-fluid rounded-circle"
+                style={{ maxWidth: "70%", cursor: "pointer" }}
+                className={`img-fluid rounded-circle ${zoomed ? "zoomed" : ""}`}
+                onClick={handleImageClick}
               />
             </div>
             <div className="col-md-6 col-sm-12">
