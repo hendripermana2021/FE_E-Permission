@@ -7,7 +7,7 @@ import $ from "jquery";
 import "jquery/dist/jquery.min.js";
 
 import serverDev from "../Server";
-import FormInputRooms from "./materials/InputFormROoms";
+import FormInputRooms from "./materials/InputFormRooms";
 
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import DropdownButton from "react-bootstrap/DropdownButton";
