@@ -9,6 +9,7 @@ import "../../dist/css/dashboard.css";
 import $ from "jquery";
 import "jquery/dist/jquery.min.js";
 import Layout from "../Layout";
+import serverDev from "../../Server";
 
 const DashboardPage = () => {
   const [data, setData] = useState([]);
@@ -32,14 +33,11 @@ const DashboardPage = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8000/v1/api/dashboard",
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      const response = await axios.get(`${serverDev}dashboard`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      });
       setData(response.data.data);
       setIsLoading(false);
     } catch (error) {

@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Swal from "sweetalert2";
 import propTypes from "prop-types";
+import serverDev from "../../Server";
 
 const UpdateFormKriteria = (props) => {
   const k = props.kriteria;
@@ -91,7 +92,7 @@ const UpdateFormKriteria = (props) => {
     try {
       await axios
         .put(
-          "http://localhost:8000/v1/api/kriteria/update/" + k.id,
+          `${serverDev}kriteria/update/` + k.id,
           {
             name_kriteria: name,
             scale_priority: parseInt(priority),

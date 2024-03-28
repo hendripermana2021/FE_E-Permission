@@ -37,7 +37,7 @@ const TableEmployee = () => {
 
   const getEmployee = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/v1/api/pegawai", {
+      const response = await axios.get(`${serverDev}pegawai`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
         },
@@ -52,7 +52,7 @@ const TableEmployee = () => {
 
   const getRoles = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/v1/api/role", {
+      const response = await axios.get(`${serverDev}role`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
         },
@@ -76,7 +76,7 @@ const TableEmployee = () => {
       if (result.isConfirmed) {
         try {
           await axios
-            .delete(`${serverDev}/v1/api/pegawai/delete/${employes.id}`, {
+            .delete(`${serverDev}pegawai/delete/${employes.id}`, {
               headers: {
                 Authorization: `Bearer ${sessionStorage.getItem(
                   "accessToken"

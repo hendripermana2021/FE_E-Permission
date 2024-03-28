@@ -7,6 +7,7 @@ import "datatables.net-dt/css/jquery.dataTables.min.css";
 import "datatables.net-dt/js/dataTables.dataTables";
 import $ from "jquery";
 import "jquery/dist/jquery.min.js";
+import serverDev from "../Server";
 
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -32,14 +33,11 @@ const TableKriteria = () => {
 
   const getKriteria = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8000/v1/api/kriteria",
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      const response = await axios.get(`${serverDev}kriteria`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      });
       setKriteria(response.data.data);
       setLoading(false);
     } catch (error) {
@@ -60,16 +58,11 @@ const TableKriteria = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(
-            `http://localhost:8000/v1/api/kriteria/delete/${k.id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${sessionStorage.getItem(
-                  "accessToken"
-                )}`,
-              },
-            }
-          );
+          await axios.delete(`${serverDev}kriteria/delete/${k.id}`, {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+            },
+          });
           getKriteria();
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
         } catch (error) {

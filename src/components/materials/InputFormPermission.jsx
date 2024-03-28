@@ -6,6 +6,7 @@ import axios from "axios";
 
 import propTypes from "prop-types";
 import Swal from "sweetalert2";
+import serverDev from "../../Server";
 
 function FormInputPermission(props) {
   const users = props.users;
@@ -50,7 +51,7 @@ function FormInputPermission(props) {
     try {
       await axios
         .post(
-          `http://localhost:8000/v1/api/permission/create`,
+          `${serverDev}permission/create`,
           {
             student_id: parseInt(student),
             start_permission: selectedDateFrom,

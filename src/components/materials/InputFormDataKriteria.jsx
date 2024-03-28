@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Swal from "sweetalert2";
+import serverDev from "../../Server";
 
 function FormInputKriteria() {
   const [name, setName] = useState("");
@@ -88,7 +89,7 @@ function FormInputKriteria() {
 
     try {
       const res = await axios.post(
-        "http://localhost:8000/v1/api/kriteria/create",
+        `${serverDev}kriteria/create`,
         {
           name_kriteria: name,
           scale_priority: parseInt(priority),

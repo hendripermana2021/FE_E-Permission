@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import DetailFormPermission from "../../components/materials/DetailFormPermission";
+import serverDev from "../../Server";
 
 const ApprovalPage = () => {
   const [permission, setPermission] = useState([]);
@@ -30,14 +31,11 @@ const ApprovalPage = () => {
 
   const getPermission = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8000/v1/api/approval",
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      const response = await axios.get(`${serverDev}approval`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      });
       setPermission(response.data.data);
       setLoading(false);
     } catch (error) {
@@ -59,7 +57,7 @@ const ApprovalPage = () => {
       if (result.isConfirmed) {
         try {
           await axios.put(
-            `http://localhost:8000/v1/api/validation-go/${p.id}`,
+            `${serverDev}validation-go/${p.id}`,
             {},
             {
               headers: {
@@ -97,7 +95,7 @@ const ApprovalPage = () => {
       if (result.isConfirmed) {
         try {
           await axios.put(
-            `http://localhost:8000/v1/api/validation-back/${p.id}`,
+            `${serverDev}validation-back/${p.id}`,
             {},
             {
               headers: {

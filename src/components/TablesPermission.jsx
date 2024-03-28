@@ -5,6 +5,7 @@ import "datatables.net-dt/css/jquery.dataTables.min.css";
 import "datatables.net-dt/js/dataTables.dataTables";
 import $ from "jquery";
 import "jquery/dist/jquery.min.js";
+import serverDev from "../Server";
 
 import InputFormPermission from "./materials/InputFormPermission";
 
@@ -39,14 +40,11 @@ const TablePermission = () => {
 
   const getPermission = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8000/v1/api/permission/all",
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      const response = await axios.get(`${serverDev}permission/all`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      });
       setPermission(response.data.data);
       setLoading(false);
     } catch (error) {
@@ -57,7 +55,7 @@ const TablePermission = () => {
 
   const getSantri = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/v1/api/santri", {
+      const response = await axios.get(`${serverDev}santri`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
         },
@@ -72,7 +70,7 @@ const TablePermission = () => {
 
   const getKriteria = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/v1/api/kriteria", {
+      const res = await axios.get(`${serverDev}kriteria`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
         },
@@ -99,7 +97,7 @@ const TablePermission = () => {
       if (result.isConfirmed) {
         try {
           await axios
-            .delete(`http://localhost:8000/v1/api/permission/delete/${p.id}`, {
+            .delete(`${serverDev}permission/delete/${p.id}`, {
               headers: {
                 Authorization: `Bearer ${sessionStorage.getItem(
                   "accessToken"

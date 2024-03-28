@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
+import serverDev from "../Server";
 
 const NavbarAdminComponent = () => {
   const [data, setData] = useState([]);
@@ -21,7 +22,7 @@ const NavbarAdminComponent = () => {
 
   const logoutHandler = async () => {
     try {
-      await axios.delete("http://localhost:8000/v1/api/logout", {
+      await axios.delete(`${serverDev}logout`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
         },

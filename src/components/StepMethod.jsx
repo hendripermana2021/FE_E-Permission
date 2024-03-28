@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import serverDev from "../Server";
 
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
@@ -21,14 +22,11 @@ const StepMethod = () => {
 
   const getPermission = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8000/v1/api/permission",
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      const response = await axios.get(`${serverDev}permission`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      });
       setPermission(response.data.data);
       setLoading(false);
     } catch (error) {
@@ -39,14 +37,11 @@ const StepMethod = () => {
 
   const getKriteria = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8000/v1/api/kriteria",
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      const response = await axios.get(`${serverDev}kriteria`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      });
       setKriteria(response.data.data);
       setLoading(false);
     } catch (error) {
@@ -59,7 +54,7 @@ const StepMethod = () => {
     setIsRoc(true);
     try {
       const response = await axios.post(
-        "http://localhost:8000/v1/api/action/calculatedROC",
+        `${serverDev}action/calculatedROC`,
         {},
         {
           headers: {
@@ -89,7 +84,7 @@ const StepMethod = () => {
     setIsCpi(true);
     try {
       const response = await axios.post(
-        "http://localhost:8000/v1/api/action/calculatedCPI",
+        `${serverDev}action/calculatedCPI`,
         {},
         {
           headers: {
