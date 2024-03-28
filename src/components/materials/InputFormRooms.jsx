@@ -31,7 +31,7 @@ function FormInputRooms(props) {
     try {
       await axios
         .post(
-          `${serverDev}/v1/api/room/create`,
+          `${serverDev}/room/create`,
           {
             id_ustadz: parseInt(id_ustadz),
             nameroom: NamaRuangan,

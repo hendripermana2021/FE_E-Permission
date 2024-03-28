@@ -63,7 +63,7 @@ const UpdateFormPermission = (props) => {
     try {
       await axios
         .put(
-          `${serverDev}/v1/api/permission/update/${permission.id}`,
+          `${serverDev}/permission/update/${permission.id}`,
           {
             student_id: parseInt(student),
             start_permission: selectedDateFrom,

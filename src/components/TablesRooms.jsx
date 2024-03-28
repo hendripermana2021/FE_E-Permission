@@ -37,7 +37,7 @@ const TableRooms = () => {
 
   const getRoom = async () => {
     try {
-      const res = await axios.get(`${serverDev}/v1/api/room`, {
+      const res = await axios.get(`${serverDev}room`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
         },
@@ -51,7 +51,7 @@ const TableRooms = () => {
 
   const getEmployees = async () => {
     try {
-      const response = await axios.get(`${serverDev}/v1/api/pegawai`, {
+      const response = await axios.get(`${serverDev}pegawai`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
         },
@@ -74,7 +74,7 @@ const TableRooms = () => {
       if (result.isConfirmed) {
         try {
           await axios
-            .delete(`${serverDev}/v1/api/room/delete/${r.id}`, {
+            .delete(`${serverDev}room/delete/${r.id}`, {
               headers: {
                 Authorization: `Bearer ${sessionStorage.getItem(
                   "accessToken"

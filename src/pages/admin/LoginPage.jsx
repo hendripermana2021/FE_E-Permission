@@ -26,7 +26,7 @@ const LoginPage = () => {
     setIsSubmitting(true);
     e.preventDefault();
     try {
-      const post = await axios.post(`${serverDev}/v1/api/login`, {
+      const post = await axios.post(`${serverDev}login`, {
         email,
         password,
       });

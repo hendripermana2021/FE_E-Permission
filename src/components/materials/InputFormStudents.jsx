@@ -66,16 +66,12 @@ function FormInputStudent(props) {
     formData.append("role_id", 2);
 
     try {
-      const res = await axios.post(
-        `${serverDev}/v1/api/santri/register`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      const res = await axios.post(`${serverDev}/santri/register`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      });
 
       if (res.status === 200) {
         setIsLoading(false);

@@ -68,7 +68,7 @@ function FormInputEmployee(prop) {
     }
     try {
       const res = await axios.post(
-        `${serverDev}/v1/api/pegawai/register`,
+        `${serverDev}/pegawai/register`,
         {
           name_pegawai: name,
           email: email,

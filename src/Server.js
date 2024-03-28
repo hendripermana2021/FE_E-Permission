@@ -1,4 +1,4 @@
-const serverDev = "https://be-permission.up.railway.app/v1/api/";
+const serverDev = `https://be-permission.up.railway.app/`;
 // const serverProduction = "";
 
 export default serverDev;

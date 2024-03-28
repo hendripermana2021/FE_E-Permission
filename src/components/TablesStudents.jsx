@@ -37,7 +37,7 @@ const TableStudents = () => {
 
   const getStudents = async () => {
     try {
-      const response = await axios.get(`${serverDev}/v1/api/santri`, {
+      const response = await axios.get(`${serverDev}santri`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
         },
@@ -51,7 +51,7 @@ const TableStudents = () => {
 
   const getRooms = async () => {
     try {
-      const response = await axios.get(`${serverDev}/v1/api/room`, {
+      const response = await axios.get(`${serverDev}room`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
         },
@@ -74,7 +74,7 @@ const TableStudents = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`${serverDev}/v1/api/santri/delete/${s.id}`, {
+          await axios.delete(`${serverDev}/santri/delete/${s.id}`, {
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
             },
