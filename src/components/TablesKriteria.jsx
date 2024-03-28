@@ -29,7 +29,7 @@ const TableKriteria = () => {
     }
 
     getKriteria();
-  }, [kriteria]);
+  }, []);
 
   const getKriteria = async () => {
     try {

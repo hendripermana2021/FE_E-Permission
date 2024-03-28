@@ -36,7 +36,7 @@ const TablePermission = () => {
     }
 
     getPermission();
-  });
+  }, []);
 
   const getPermission = async () => {
     try {

@@ -33,7 +33,7 @@ const TableRooms = () => {
 
     getRoom();
     getEmployees();
-  }, [rooms]);
+  }, []);
 
   const getRoom = async () => {
     try {

@@ -33,7 +33,7 @@ const TableEmployee = () => {
 
     getEmployee();
     getRoles();
-  }, [employee]);
+  }, []);
 
   const getEmployee = async () => {
     try {
