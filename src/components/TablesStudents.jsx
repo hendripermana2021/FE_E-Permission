@@ -113,9 +113,13 @@ const TableStudents = () => {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </Spinner>
+                  <tr>
+                    <td colSpan={8} className="align-center">
+                      <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner>
+                    </td>
+                  </tr>
                 ) : (
                   students.map((s, index) => (
                     <tr key={index}>
