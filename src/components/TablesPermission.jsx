@@ -29,8 +29,11 @@ const TablePermission = () => {
   useEffect(() => {
     if (!$.fn.DataTable.isDataTable("#tablePermission")) {
       $(document).ready(function () {
-        setTimeout(function () {
-          $("#tablePermission").DataTable();
+        const tableInterval = setInterval(() => {
+          if ($("#tablePermission").is(":visible")) {
+            clearInterval(tableInterval);
+            $("#tablePermission").DataTable();
+          }
         }, 1000);
       });
     }

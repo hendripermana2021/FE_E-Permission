@@ -22,8 +22,11 @@ const TableKriteria = () => {
   useEffect(() => {
     if (!$.fn.DataTable.isDataTable("#tableKriteria")) {
       $(document).ready(function () {
-        setTimeout(function () {
-          $("#tableKriteria").DataTable();
+        const tableInterval = setInterval(() => {
+          if ($("#tableKriteria").is(":visible")) {
+            clearInterval(tableInterval);
+            $("#tableKriteria").DataTable();
+          }
         }, 1000);
       });
     }

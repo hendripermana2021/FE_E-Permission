@@ -29,6 +29,7 @@ const Layout = ({ children }) => {
           </div>
         </div>
       </div> */}
+      <meta name="viewport" content="initial-scale=1, width=device-width" />
       <Container fluid className="ms-6 ps-0">
         {/* Navbar */}
         <Row>

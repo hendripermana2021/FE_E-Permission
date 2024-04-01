@@ -25,8 +25,11 @@ const TableEmployee = () => {
   useEffect(() => {
     if (!$.fn.DataTable.isDataTable("#tableEmployees")) {
       $(document).ready(function () {
-        setTimeout(function () {
-          $("#tableEmployees").DataTable();
+        const tableInterval = setInterval(() => {
+          if ($("#tableEmployees").is(":visible")) {
+            clearInterval(tableInterval);
+            $("#tableEmployees").DataTable();
+          }
         }, 1000);
       });
     }

@@ -23,10 +23,21 @@ const TableStudents = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // if (!$.fn.DataTable.isDataTable("#tableSantris")) {
+    //   $(document).ready(function () {
+    //     setTimeout(function () {
+    //       $("#tableSantris").DataTable();
+    //     }, 1000);
+    //   });
+    // }
+
     if (!$.fn.DataTable.isDataTable("#tableSantris")) {
       $(document).ready(function () {
-        setTimeout(function () {
-          $("#tableSantris").DataTable();
+        const tableInterval = setInterval(() => {
+          if ($("#tableSantris").is(":visible")) {
+            clearInterval(tableInterval);
+            $("#tableSantris").DataTable();
+          }
         }, 1000);
       });
     }
@@ -114,7 +125,7 @@ const TableStudents = () => {
               <tbody>
                 {isLoading ? (
                   <tr>
-                    <td colSpan={8} className="align-center">
+                    <td className="align-items-center">
                       <Spinner animation="border" role="status">
                         <span className="visually-hidden">Loading...</span>
                       </Spinner>

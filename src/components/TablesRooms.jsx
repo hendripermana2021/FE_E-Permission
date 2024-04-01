@@ -15,6 +15,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Swal from "sweetalert2";
 import DetailFormRoom from "./materials/DetailFormRoom";
 import UpdateFormRooms from "./materials/UpdateFormRooms";
+import { Spinner } from "react-bootstrap";
 
 const TableRooms = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,10 +24,21 @@ const TableRooms = () => {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
+    // if (!$.fn.DataTable.isDataTable("#tableRooms")) {
+    //   $(document).ready(function () {
+    //     setTimeout(function () {
+    //       $("#tableRooms").DataTable();
+    //     }, 1000);
+    //   });
+    // }
+
     if (!$.fn.DataTable.isDataTable("#tableRooms")) {
       $(document).ready(function () {
-        setTimeout(function () {
-          $("#tableRooms").DataTable();
+        const tableInterval = setInterval(() => {
+          if ($("#tableRooms").is(":visible")) {
+            clearInterval(tableInterval);
+            $("#tableRooms").DataTable();
+          }
         }, 1000);
       });
     }
@@ -114,8 +126,10 @@ const TableRooms = () => {
                 <tbody>
                   {isLoading ? (
                     <tr>
-                      <td colSpan="4" className="text-center">
-                        Loading...
+                      <td className="align-items-center">
+                        <Spinner animation="border" role="status">
+                          <span className="visually-hidden">Loading...</span>
+                        </Spinner>
                       </td>
                     </tr>
                   ) : (

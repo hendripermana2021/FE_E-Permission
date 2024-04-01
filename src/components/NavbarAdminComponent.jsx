@@ -3,6 +3,7 @@
 import logobrand from "../assets/img/logoepermission.png";
 import "../dist/css/material.css";
 import { NavLink } from "react-router-dom";
+import Dropdown from "react-bootstrap/Dropdown";
 
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -63,24 +64,22 @@ const NavbarAdminComponent = () => {
         </button>
         <ul className="navbar-nav navbar-nav-right">
           <li className="nav-item nav-profile dropdown">
-            <a
-              className="nav-link dropdown-toggle"
-              href="#"
-              data-bs-toggle="dropdown"
-              id="profileDropdown"
-            >
-              <i className="ti-user"></i>
-              Welcome, {data.name_pegawai}
-            </a>
-            <div
-              className="dropdown-menu dropdown-menu-right navbar-dropdown"
-              aria-labelledby="profileDropdown"
-            >
-              <button className="dropdown-item" onClick={logoutHandler}>
+            <Dropdown>
+              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                <i className="ti-user"></i>
+                Welcome, {data.name_pegawai}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item href="#" onClick={logoutHandler}>
+                  Logout
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            {/* <button className="dropdown-item" onClick={logoutHandler}>
                 <i className="ti-power-off text-primary" />
                 Logout
-              </button>
-            </div>
+              </button> */}
           </li>
         </ul>
         <button
