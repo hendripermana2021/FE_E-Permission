@@ -344,7 +344,7 @@ const StepMethod = () => {
           <div className="card bordered mt-4">
             <div className="card-body">
               <h6 className="fw-bold">
-                Step 4 : Perkealian bobot dengan Matriks Normalisasi
+                Step 4 : Pengkalian bobot dengan Matriks Normalisasi
               </h6>
 
               <div className="table-responsive my-4">

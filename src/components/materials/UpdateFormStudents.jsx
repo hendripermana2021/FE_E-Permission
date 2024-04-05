@@ -66,7 +66,7 @@ const UpdateFormStudents = (props) => {
 
     try {
       const res = await axios.put(
-        `${serverDev}/santri/update/${student.id}`,
+        `${serverDev}santri/update/${student.id}`,
         formData,
         {
           headers: {

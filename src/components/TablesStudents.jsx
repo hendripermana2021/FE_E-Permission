@@ -44,7 +44,7 @@ const TableStudents = () => {
 
     getStudents();
     getRooms();
-  }, []);
+  });
 
   const getStudents = async () => {
     try {
@@ -85,7 +85,7 @@ const TableStudents = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`${serverDev}/santri/delete/${s.id}`, {
+          await axios.delete(`${serverDev}santri/delete/${s.id}`, {
             headers: {
               Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
             },
@@ -125,7 +125,7 @@ const TableStudents = () => {
               <tbody>
                 {isLoading ? (
                   <tr>
-                    <td className="align-items-center">
+                    <td colSpan="8" className="align-items-center">
                       <Spinner animation="border" role="status">
                         <span className="visually-hidden">Loading...</span>
                       </Spinner>

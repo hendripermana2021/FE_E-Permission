@@ -63,7 +63,7 @@ const UpdateFormEmployee = (props) => {
     try {
       await axios
         .put(
-          `${serverDev}/pegawai/update/${emp.id}`,
+          `${serverDev}pegawai/update/${emp.id}`,
           {
             name_pegawai: name,
             email: email,

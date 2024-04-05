@@ -45,7 +45,7 @@ const TableRooms = () => {
 
     getRoom();
     getEmployees();
-  }, []);
+  });
 
   const getRoom = async () => {
     try {
@@ -126,7 +126,7 @@ const TableRooms = () => {
                 <tbody>
                   {isLoading ? (
                     <tr>
-                      <td className="align-items-center">
+                      <td colSpan="4" className="align-items-center">
                         <Spinner animation="border" role="status">
                           <span className="visually-hidden">Loading...</span>
                         </Spinner>

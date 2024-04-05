@@ -22,11 +22,6 @@ const TablePermission = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getSantri();
-    getKriteria();
-  }, []);
-
-  useEffect(() => {
     if (!$.fn.DataTable.isDataTable("#tablePermission")) {
       $(document).ready(function () {
         const tableInterval = setInterval(() => {
@@ -39,6 +34,8 @@ const TablePermission = () => {
     }
 
     getPermission();
+    getSantri();
+    getKriteria();
   }, []);
 
   const getPermission = async () => {

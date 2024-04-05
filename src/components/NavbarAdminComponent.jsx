@@ -55,13 +55,6 @@ const NavbarAdminComponent = () => {
         </a>
       </div>
       <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <button
-          className="navbar-toggler align-self-center"
-          type="button"
-          data-toggle="minimize"
-        >
-          <span className="ti-view-list" />
-        </button>
         <ul className="navbar-nav navbar-nav-right">
           <li className="nav-item nav-profile dropdown">
             <Dropdown>

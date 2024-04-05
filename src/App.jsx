@@ -1,5 +1,6 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import jwt_decode from "jwt-decode";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -26,20 +27,8 @@ const LayoutRoute = ({ element, ...rest }) => (
   </div>
 );
 
-const AdminRoutes = () => (
-  <Routes>
-    <Route index element={<DashboardPage />} />
-    <Route path="roompage" element={<RoomsPage />} />
-    <Route path="students" element={<StudentsPage />} />
-    <Route path="employes" element={<EmployeePage />} />
-    <Route path="permission" element={<PermissionPage />} />
-    <Route path="kriteria" element={<KriteriaPage />} />
-    <Route path="cpi-calculated" element={<CalculatedPage />} />
-    <Route path="approval" element={<ApprovalPage />} />
-  </Routes>
-);
-
 const App = () => {
+  const [data, setData] = useState([]);
   const token = sessionStorage.getItem("accessToken");
 
   const navigate = useNavigate();
@@ -48,8 +37,37 @@ const App = () => {
     if (!token) {
       // navigate
       navigate("/login");
+    } else {
+      const decode = jwt_decode(token);
+      console.log(decode.role_id);
+      setData(decode.role_id);
     }
-  }, [token]);
+  }, [token, navigate]);
+
+  const AdminRoutes = () => (
+    <Routes>
+      <Route index element={<DashboardPage />} />
+      <Route
+        path="roompage"
+        element={data == 1 ? <RoomsPage /> : <Navigate to="/dashboard" />}
+      />
+      <Route path="students" element={<StudentsPage />} />
+      <Route
+        path="employes"
+        element={data == 1 ? <EmployeePage /> : <Navigate to="/dashboard" />}
+      />
+      <Route path="permission" element={<PermissionPage />} />
+      <Route
+        path="kriteria"
+        element={data == 1 ? <KriteriaPage /> : <Navigate to="/dashboard" />}
+      />
+      <Route
+        path="cpi-calculated"
+        element={data == 1 ? <CalculatedPage /> : <Navigate to="/dashboard" />}
+      />
+      <Route path="approval" element={<ApprovalPage />} />
+    </Routes>
+  );
 
   return (
     <Routes>
@@ -70,7 +88,6 @@ const App = () => {
         path="/terms"
         element={<LayoutRoute element={<SyaratKetentuanPage />} />}
       />
-      {/* Add more routes as needed */}
     </Routes>
   );
 };

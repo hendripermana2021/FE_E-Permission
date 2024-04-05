@@ -23,7 +23,7 @@ const UpdateFormRooms = (props) => {
     try {
       await axios
         .put(
-          `${serverDev}/room/update/${room.id}`,
+          `${serverDev}room/update/${room.id}`,
           {
             id_ustadz: parseInt(id_ustadz),
             nameroom: NamaRuangan,

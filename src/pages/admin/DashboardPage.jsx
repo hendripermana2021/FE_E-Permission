@@ -67,11 +67,24 @@ const DashboardPage = () => {
             </Link>
           </div>
 
-          <div className="col-md-3 col-sm-6 mb-3">
-            <Link
-              to="/dashboard/employes"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
+          {user.role_id === "1" ? (
+            <div className="col-md-3 col-sm-6 mb-3">
+              <Link
+                to="/dashboard/employes"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <div className="card shadow">
+                  <div className="card-body">
+                    <h4 className="card-title">Total Pegawai</h4>
+                    <p className="card-text" style={{ fontSize: "40px" }}>
+                      {data.pegawai}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          ) : (
+            <div className="col-md-3 col-sm-6 mb-3">
               <div className="card shadow">
                 <div className="card-body">
                   <h4 className="card-title">Total Pegawai</h4>
@@ -80,8 +93,8 @@ const DashboardPage = () => {
                   </p>
                 </div>
               </div>
-            </Link>
-          </div>
+            </div>
+          )}
 
           {user.role_id === "1" && (
             <>

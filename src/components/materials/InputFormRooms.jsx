@@ -31,7 +31,7 @@ function FormInputRooms(props) {
     try {
       await axios
         .post(
-          `${serverDev}/room/create`,
+          `${serverDev}room/create`,
           {
             id_ustadz: parseInt(id_ustadz),
             nameroom: NamaRuangan,
@@ -99,8 +99,8 @@ function FormInputRooms(props) {
                 value={id_ustadz}
                 onChange={(e) => setid_ustadz(e.target.value)}
               >
-                <option value={1} selected hidden>
-                  === Select Ustadz ====
+                <option selected hidden>
+                  === Pilih Ustadz ====
                 </option>
                 {emp.map((employee, index) => (
                   <option key={index + 1} value={employee.id}>
