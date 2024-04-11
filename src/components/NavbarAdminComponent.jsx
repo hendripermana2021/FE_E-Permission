@@ -1,17 +1,22 @@
 // NavbarAdminComponent.js
 
 import logobrand from "../assets/img/logoepermission.png";
-import "../dist/css/material.css";
 import { NavLink } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
+import Button from "react-bootstrap/Button";
+import Offcanvas from "react-bootstrap/Offcanvas";
 
 import axios from "axios";
 import { useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import serverDev from "../Server";
 
-const NavbarAdminComponent = () => {
+const OffCanvasExample = ({ name, ...props }) => {
   const [data, setData] = useState([]);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     const token = sessionStorage.getItem("accessToken");
@@ -69,37 +74,21 @@ const NavbarAdminComponent = () => {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-            {/* <button className="dropdown-item" onClick={logoutHandler}>
-                <i className="ti-power-off text-primary" />
-                Logout
-              </button> */}
           </li>
         </ul>
-        <button
-          className="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasRight"
-          aria-controls="offcanvasRight"
+        <Button
+          variant="outline-secondary d-lg-none align-self-center"
+          onClick={handleShow}
+          style={{ BorderColor: "none" }}
         >
           <span className="ti-view-list" />
-        </button>
-        <div
-          className="offcanvas offcanvas-end"
-          tabIndex={-1}
-          id="offcanvasRight"
-          aria-labelledby="offcanvasRightLabel"
-        >
-          <div className="offcanvas-header">
+        </Button>
+
+        <Offcanvas show={show} onHide={handleClose} {...props}>
+          <Offcanvas.Header closeButton>
             <h5 id="offcanvasRightLabel">E-PERMISSION</h5>
-            <button
-              type="button"
-              className="btn-close text-reset"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            />
-          </div>
-          <div className="offcanvas-body sidebar ">
+          </Offcanvas.Header>
+          <Offcanvas.Body className="offcanvas-body sidebar">
             <ul className="nav " id="sidebar">
               <li className="nav-item">
                 <NavLink to="/dashboard" className="nav-link">
@@ -175,10 +164,20 @@ const NavbarAdminComponent = () => {
                 </li>
               )}
             </ul>
-          </div>
-        </div>
+          </Offcanvas.Body>
+        </Offcanvas>
       </div>
     </nav>
+  );
+};
+
+const NavbarAdminComponent = () => {
+  return (
+    <>
+      {["end"].map((placement, idx) => (
+        <OffCanvasExample key={idx} placement={placement} name={placement} />
+      ))}
+    </>
   );
 };
 

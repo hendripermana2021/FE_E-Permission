@@ -57,9 +57,9 @@ const DashboardPage = () => {
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <div className="card shadow">
-                <div className="card-body">
+                <div className="card-body justify-content-center">
                   <h4 className="card-title">Total Santri/ wati</h4>
-                  <p className="card-text" style={{ fontSize: "40px" }}>
+                  <p className="card-text " style={{ fontSize: "40px" }}>
                     {data.santri}
                   </p>
                 </div>

@@ -12,6 +12,7 @@
     padding: 10px; /* Adjust padding as needed */
     text-align: center;
     width: 105% !important;
+    font-size: 0.7em !important;
   }
 
   .offcanvas-body {
