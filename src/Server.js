@@ -1,4 +1,4 @@
-const serverDev = `https://be-permission.up.railway.app/v1/api/`;
+const serverDev = `http://localhost:8000/v1/api/`;
 // const serverProduction = "";
 
 export default serverDev;

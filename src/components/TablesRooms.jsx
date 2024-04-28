@@ -45,7 +45,7 @@ const TableRooms = () => {
 
     getRoom();
     getEmployees();
-  });
+  }, []);
 
   const getRoom = async () => {
     try {

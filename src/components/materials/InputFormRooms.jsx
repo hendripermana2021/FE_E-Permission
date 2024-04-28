@@ -50,6 +50,7 @@ function FormInputRooms(props) {
             });
             setNamaRuangan("");
             setid_ustadz("");
+            window.location.reload();
             handleShow();
           }
         });

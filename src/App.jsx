@@ -19,6 +19,7 @@ import StudentsPage from "./pages/admin/StudentsPage";
 import SyaratKetentuanPage from "./pages/admin/SyaratKetentuanPage";
 import Testimonial from "./pages/admin/Testimonial";
 import ApprovalPage from "./pages/admin/ApprovalPage";
+import { element } from "prop-types";
 
 const LayoutRoute = ({ element, ...rest }) => (
   <div>
@@ -49,21 +50,53 @@ const App = () => {
       <Route index element={<DashboardPage />} />
       <Route
         path="roompage"
-        element={data == 1 ? <RoomsPage /> : <Navigate to="/dashboard" />}
+        element={
+          data == 1 ? (
+            <RoomsPage />
+          ) : data == 0 ? (
+            <RoomsPage />
+          ) : (
+            <Navigate to="/dashboard" />
+          )
+        }
       />
       <Route path="students" element={<StudentsPage />} />
       <Route
         path="employes"
-        element={data == 1 ? <EmployeePage /> : <Navigate to="/dashboard" />}
+        element={
+          data == 1 ? (
+            <EmployeePage />
+          ) : data == 0 ? (
+            <EmployeePage />
+          ) : (
+            <Navigate to="/dashboard" />
+          )
+        }
       />
       <Route path="permission" element={<PermissionPage />} />
       <Route
         path="kriteria"
-        element={data == 1 ? <KriteriaPage /> : <Navigate to="/dashboard" />}
+        element={
+          data == 1 ? (
+            <KriteriaPage />
+          ) : data == 0 ? (
+            <KriteriaPage />
+          ) : (
+            <Navigate to="/dashboard" />
+          )
+        }
       />
       <Route
         path="cpi-calculated"
-        element={data == 1 ? <CalculatedPage /> : <Navigate to="/dashboard" />}
+        element={
+          data == 1 ? (
+            <CalculatedPage />
+          ) : data == 0 ? (
+            <CalculatedPage />
+          ) : (
+            <Navigate to="/dashboard" />
+          )
+        }
       />
       <Route path="approval" element={<ApprovalPage />} />
     </Routes>
@@ -71,7 +104,10 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/dashboard/*" element={<AdminRoutes />} />
+      <Route
+        path="/dashboard/*"
+        element={<LayoutRoute element={<AdminRoutes />} />}
+      />
       <Route path="/" element={<LayoutRoute element={<HomePage />} />} />
       <Route path="/kelas" element={<LayoutRoute />} />
       <Route

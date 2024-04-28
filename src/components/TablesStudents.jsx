@@ -44,7 +44,7 @@ const TableStudents = () => {
 
     getStudents();
     getRooms();
-  });
+  }, []);
 
   const getStudents = async () => {
     try {
@@ -124,13 +124,9 @@ const TableStudents = () => {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <tr>
-                    <td colSpan="8" className="align-items-center">
-                      <Spinner animation="border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </td>
-                  </tr>
+                  <td colSpan="8" align="center">
+                    Loading...
+                  </td>
                 ) : (
                   students.map((s, index) => (
                     <tr key={index}>

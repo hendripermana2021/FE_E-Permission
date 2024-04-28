@@ -124,7 +124,7 @@ const TablePermission = () => {
     <div className="container-fluid col-lg-12 col-sm-12 col-md-12 grid-margin stretch-card mt-4 ms-2">
       <div className="card">
         <div className="card-body">
-          <h4 className="fw-bold my-3 mb-4">Table Permission</h4>
+          <h4 className="fw-bold my-3 mb-4">TABLE PERMISSION</h4>
           <InputFormPermission users={users} kriterias={kriteria} />
           <div className="table-responsive mt-4">
             <table className="table table-hover" id="tablePermission">
