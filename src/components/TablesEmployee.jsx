@@ -120,7 +120,7 @@ const TableEmployee = () => {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan="5">Loading...</td>
+                    <td colSpan="6">Loading...</td>
                   </tr>
                 ) : employee.length === 0 ? (
                   <tr>

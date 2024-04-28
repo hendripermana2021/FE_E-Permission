@@ -97,11 +97,11 @@ const TableKriteria = () => {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan="5">Loading...</td>
+                    <td colSpan="7">Loading...</td>
                   </tr>
                 ) : kriteria.length === 0 ? (
                   <tr>
-                    <td colSpan="5">No rooms available</td>
+                    <td colSpan="7">No rooms available</td>
                   </tr>
                 ) : (
                   kriteria.map((kriterias, index) => (
